@@ -1679,3 +1679,279 @@ body, html {
 }
 
 /* *{border: 1px solid red;} */
+
+
+/* Teacher Part singup*/
+
+
+.teacher-signup-main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 700px;
+    width: 800px;
+    background-color: #e3f2fd;
+  }
+  
+  .teacher-form-container {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+  }
+  
+  .teacher-login-container {
+    background-color: #f5f5f5;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+  }
+  
+  .teacher-login-heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .teacher-login-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .teacher-login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2196f3;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .teacher-login-button:disabled {
+    background-color: #b0bec5;
+    cursor: not-allowed;
+  }
+  
+  .teacher-login-button:hover {
+    background-color: #1e88e5;
+  }
+
+/* Teacher Part- tutor */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f3f8fc;
+}
+
+.teacher-tutor-main-container {
+    display: flex;
+    height: 100vh;
+}
+
+.teacher-tutor-sidebar {
+    width: 250px; /* افزایش عرض سایدبار */
+    background-color: #e8f7ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding:  20px 0;
+    border-right: 2px solid #d1e3f0;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.teacher-tutor-menu-item {
+    width: 90%; /* دکمه‌ها پهن‌تر شدند */
+    padding: 12px; /* افزایش ارتفاع دکمه‌ها */
+    margin: 10px 0;
+    text-align: center;
+    background-color: white; /* پس‌زمینه پیش‌فرض سفید */
+    color: #333; /* متن پیش‌فرض تیره */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border: 1px solid #ddd;
+
+}
+
+.teacher-tutor-menu-item.active,
+.teacher-tutor-menu-item:hover {
+  background-color: #8df5a2;
+  color: black;
+  border-color: #8df5a2;
+}
+
+.teacher-tutor-content {
+    flex: 1;
+    padding: 40px;
+    background-color: #f3f8fc;
+    overflow-y: auto;
+}
+
+.teacher-tutor-user-info {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.teacher-tutor-user-info h1 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.teacher-tutor-user-info p {
+    font-size: 16px;
+    color: #555;
+    margin: 8px 0;
+}
+
+.logout-btn {
+    position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 8px 16px;
+  background-color: white;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  }
+  
+  .logout-btn:hover {
+    background-color: #8df5a2; /* کمی خاکستری برای هاور */
+  }
+
+/* add question part*/
+
+
+.add-question-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+    background-color: #e6f7ff;
+  }
+  
+  .add-question-sidebar {
+    width: 15%;
+    background-color: #f2f2f2;
+    padding: 1rem;
+  }
+  
+  .add-question-sidebar-button {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .add-question-sidebar-button.active {
+    background-color: #d9f7be;
+  }
+  
+  .add-question-main-content {
+    width: 85%;
+    padding: 2rem;
+  }
+  
+  .add-question-page-title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .add-question-difficulty-levels {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1.5rem;
+  }
+  
+  .add-question-difficulty {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  .add-question-difficulty.active {
+    background-color: #ffd6e7;
+  }
+  
+  .add-question-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .add-question-form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-question-category-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .add-question-category-button {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  .add-question-category-button.active {
+    background-color: #cce7ff;
+  }
+  
+  .add-question-form-control {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .add-question-add-hint-button {
+    padding: 0.5rem 1rem;
+    background-color: #b3e5fc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .add-question-submit-button {
+    padding: 0.75rem 1.5rem;
+    background-color: #80d8ff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

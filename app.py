@@ -12,10 +12,15 @@ bcrypt= Bcrypt(app)
 secret= "Very_secret_key_thatshouldntbesavedinplaintext"
 app.config["SECRET_KEY"]="Very_secret_key_thatshouldntbesavedinplaintext"
 jwt=JWTManager(app)
-CORS(app, origins=["http://localhost:4200","http://localhost:4200/tutor"])
+CORS(app, origins=["http://localhost:4200","http://localhost:4200/tutor","http://localhost:4200/teacher-tutor"])
 
 client = MongoClient(host='localhost', port=27017)
 db = client['IPT_db']
+
+@app.route('/')
+def home():
+    return 'Hello, World! This is the homepage.'
+
 
 @app.route('/signup', methods=['POST'])
 def save_user():
@@ -25,7 +30,9 @@ def save_user():
     status = "fail"
     try:
         data = request.get_json()
-        username=data['username']
+        username=data['username']  
+        firstName = data['firstName']  # اضافه کردن firstName
+        lastName = data['lastName']    # اضافه کردن lastName
         if db.users.find_one({'username':username}):
             message = "user with that username already exists"
             code = 401
@@ -36,13 +43,16 @@ def save_user():
             data["experienceLevel"]="beginner"
             data["solvedTasks"]=[]
             data['UserCreated'] = datetime.now()
+            data['firstName'] = firstName  # ذخیره firstName
+            data['lastName'] = lastName    # ذخیره lastName
             access_token=create_access_token(identity=username)
             res = db.users.insert_one(data)
             if res.acknowledged:
                 status = "successful"
                 message = "user created successfully"
                 code = 200
-                res_data={"username":username, "token":access_token, "experienceLevel":data["experienceLevel"],"solvedTasks":data["solvedTasks"]}
+                res_data={"username":username, "token":access_token, "experienceLevel":data["experienceLevel"],"solvedTasks":data["solvedTasks"],
+                          "firstName": data["firstName"],  "lastName": data["lastNamel"] }
     except Exception as ex:
         message = f"{ex}"
         status = "fail"
@@ -59,19 +69,30 @@ def login():
         data = request.get_json()
         username=data['username']
         user = db.users.find_one({'username':username})
-        print(user)
+        print( "User:",user)
         if user:
             passwordhashed=user["password"]
             password=data["password"]
             experienceLevel = user["experienceLevel"]
             solvedTasksList = user["solvedTasks"]
+            firstName = user["firstName"] 
+            lastName = user["lastName"] 
+
+
             if user and bcrypt.check_password_hash(passwordhashed, password):
                 access_token=create_access_token(identity=username)
                 message = "user authenticated"
                 code = 200
-                status = "successful"
-                res_data={"username":username, "token":access_token, "experienceLevel":experienceLevel,"solvedTasks":solvedTasksList}
-                print(res_data)
+                status = "successful"  
+                firstName = user["firstName"]  # نام را از داده‌های کاربر بگیر
+                lastName = user["lastName"]    # نام خانوادگی را از داده‌های کاربر بگیر
+                res_data={"username":username,
+                           "token":access_token, 
+                           "experienceLevel":experienceLevel,
+                           "solvedTasks":solvedTasksList,
+                           "firstName": firstName,
+                           "lastName": lastName   }
+                print("res_data :",res_data)
 
             else:
                 message = "wrong password"
@@ -152,6 +173,62 @@ def updateSolvedTasks():
         code = 500
         status = "fail"
     return jsonify({'status': status, "data": res_data, "message":message}), code
+
+#Teacher part
+@app.route('/teacher-signup1', methods=['POST'])
+def save_teacher():
+    code = 500
+    res_data = {}
+    message = ""
+    status = "fail"
+    print("hi")
+    try:
+        # Get data from the request body
+        data = request.get_json()
+        username = data['username']
+
+        # Check if the username already exists in the database
+        if db.users.find_one({'username': username}):
+            message = "A teacher with that username already exists."
+            code = 401
+            status = "fail"
+        else:
+            # Hash the password before storing it in the database
+            data['password'] = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+            
+            # You may want to include other teacher-specific fields
+            data["experienceLevel"] = "beginner"  # Default experience level
+            data["solvedTasks"] = []  # Empty array for initial tasks
+            data['UserCreated'] = datetime.now()
+            data['role'] = 'teacher'  # Add role as 'teacher' for distinguishing
+
+            # Create a JWT token for the teacher
+            access_token = create_access_token(identity=username)
+
+            # Insert the teacher's data into the database
+            res = db.users.insert_one(data)
+            
+            if res.acknowledged:
+                status = "successful"
+                message = "Teacher created successfully."
+                code = 200
+                res_data = {
+                    "username": username,
+                    "token": access_token,
+                    "experienceLevel": data["experienceLevel"],
+                    "solvedTasks": data["solvedTasks"]
+                }
+    except Exception as ex:
+        message = f"{ex}"
+        status = "fail"
+        code = 500
+
+    return jsonify({
+        'status': status,
+        'data': res_data,
+        'message': message
+    }), code
+
 
 if __name__=='__main__':
     app.run()

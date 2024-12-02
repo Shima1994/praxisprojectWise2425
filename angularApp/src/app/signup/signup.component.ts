@@ -38,7 +38,7 @@ export class SignupComponent {
   
       // Check if username or password is undefined or null
       if (typeof username === 'string' && typeof password === 'string') {
-        this.authService.signup(username, password).subscribe({
+        this.authService.signup('firstname','lastname',username, password).subscribe({
           next: (user) => {
             if (user && user.token) {
             // Handle successful signup
@@ -69,6 +69,7 @@ onSubmitLogin() {
     const username = this.loginForm.value.username;
     const password = this.loginForm.value.password;
     if (typeof username === 'string' && typeof password === 'string') {
+      debugger;
       this.authService.login(username, password).subscribe({
         next: (user) => {
           if (user && user.token) {

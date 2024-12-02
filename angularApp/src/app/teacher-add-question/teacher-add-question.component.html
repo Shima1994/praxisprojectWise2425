@@ -1,0 +1,130 @@
+<div class="add-question-page">
+  <!-- Sidebar -->
+  <div class="add-question-sidebar">
+    <button class="add-question-sidebar-button" routerLink="/teacher-tutor">Info</button>
+    <button class="add-question-sidebar-button active">Add Question</button>
+    <button class="add-question-sidebar-button">List Question</button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="add-question-main-content">
+    <h1 class="add-question-page-title">Add Question Page</h1>
+
+    <!-- Difficulty Levels -->
+    <div class="add-question-difficulty-levels">
+      <button
+        class="add-question-difficulty-button"
+        [class.active]="selectedDifficulty === 'Beginner'"
+        (click)="selectDifficulty('Beginner')"
+      >
+        Beginner
+      </button>
+      <button
+        class="add-question-difficulty-button"
+        [class.active]="selectedDifficulty === 'Advance'"
+        (click)="selectDifficulty('Advance')"
+      >
+        Advance
+      </button>
+      <button
+        class="add-question-difficulty-button"
+        [class.active]="selectedDifficulty === 'Expert'"
+        (click)="selectDifficulty('Expert')"
+      >
+        Expert
+      </button>
+    </div>
+
+    <!-- Categories -->
+    <div class="add-question-categories">
+      <button
+        class="add-question-category-button"
+        *ngFor="let category of categories"
+        [class.active]="selectedCategory === category"
+        (click)="selectCategory(category)"
+      >
+        {{ category }}
+      </button>
+    </div>
+
+    <!-- Form Content -->
+    <form class="add-question-form" (submit)="submitQuestion()">
+      <div class="add-question-form-group">
+        <label for="question-type">Question Type</label>
+        <select id="question-type" class="add-question-form-control" [(ngModel)]="questionType" name="questionType">
+          <option value="Code">Code</option>
+          <option value="Multiple Choice">Multiple Choice</option>
+          <option value="True/False">True/False</option>
+        </select>
+      </div>
+
+      <div class="add-question-form-group">
+        <label for="description">Description Question</label>
+        <textarea
+          id="description"
+          class="add-question-form-control"
+          [(ngModel)]="questionData.description"
+          name="description"
+        ></textarea>
+      </div>
+
+      <div class="add-question-form-group">
+        <label for="code">Code</label>
+        <textarea id="code" class="add-question-form-control" [(ngModel)]="questionData.code" name="code"></textarea>
+      </div>
+
+      <div class="add-question-form-group">
+        <label for="answer">Answer</label>
+        <input
+          id="answer"
+          type="text"
+          class="add-question-form-control"
+          [(ngModel)]="questionData.answer"
+          name="answer"
+        />
+      </div>
+
+      <div class="add-question-form-group">
+        <label for="feedback-correct">Feedback for Correct Answer</label>
+        <textarea
+          id="feedback-correct"
+          class="add-question-form-control"
+          [(ngModel)]="questionData.feedbackCorrect"
+          name="feedbackCorrect"
+        ></textarea>
+      </div>
+
+      <div class="add-question-form-group">
+        <label for="feedback-wrong">Feedback for Wrong Answer</label>
+        <textarea
+          id="feedback-wrong"
+          class="add-question-form-control"
+          [(ngModel)]="questionData.feedbackWrong"
+          name="feedbackWrong"
+        ></textarea>
+      </div>
+
+      <div class="add-question-form-group">
+        <label>Hint</label>
+        <div *ngFor="let hint of questionData.hints; index as i" class="add-question-hint-item">
+          <input
+            type="text"
+            class="add-question-form-control"
+            [(ngModel)]="questionData.hints[i]"
+            [name]="'hint' + i"
+          />
+        </div>
+        <button
+          type="button"
+          class="add-question-add-hint-button"
+          [disabled]="questionData.hints.length >= 3"
+          (click)="addHint('')"
+        >
+          Add new hint
+        </button>
+      </div>
+
+      <button type="submit" class="add-question-submit-button">Add Question</button>
+    </form>
+  </div>
+</div>
