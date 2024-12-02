@@ -1,23 +1,30 @@
 <div class="teacher-tutor-main-container">
+    <!-- Sidebar -->
     <div class="teacher-tutor-sidebar">
-        <h2 class="sidebar-title">Menu</h2>
-        <button class="teacher-tutor-menu-item active">Info</button>
-        <button class="teacher-tutor-menu-item" routerLink="/teacher-add-question">Add Question</button>
-        <button class="teacher-tutor-menu-item">List Question</button>
+      <h2 class="sidebar-title">Menu</h2>
+      <button class="teacher-tutor-menu-item active">Info</button>
+      <button class="teacher-tutor-menu-item" routerLink="/teacher-add-question">Add Question</button>
+      <button class="teacher-tutor-menu-item" routerLink="/teacher-list-question">List Question</button>
     </div>
-
+  
+    <!-- Main Content -->
     <div class="teacher-tutor-content">
-        <div class="teacher-tutor-user-info">
-            <h1>Welcome, {{ currentUsername }}</h1>
-            <div class="profile-details" style="background-color: #f9f9f9; padding: 10px; border-radius: 5px;">
-                <p><strong style="color: #2c3e50;">Firstname:</strong> {{ currentFirstName || 'N/A' }}</p>
-                <p><strong style="color: #2c3e50;">Lastname:</strong> {{ currentLastName || 'N/A' }}</p>
-                <p><strong style="color: #2c3e50;">Username:</strong> {{ currentUsername }}</p>
-            </div>
-        </div>
-
+      <div class="teacher-tutor-user-info">
         <button (click)="logout()" class="logout-btn">Logout</button>
-
+        <h1>Welcome, {{ currentUsername }}</h1>
+        <div class="profile-details">
+          <p>
+            <strong>Firstname:</strong> {{ currentFirstName || 'N/A' }}
+          </p>
+          <p>
+            <strong>Lastname:</strong> {{ currentLastName || 'N/A' }}
+          </p>
+          <p>
+            <strong>Username:</strong> {{ currentUsername }}
+          </p>
+        </div>
+      </div>
+     
     </div>
-</div>
-
+  </div>
+  
