@@ -14,7 +14,7 @@ import { AuthService } from '../services/auth.service';
 export class TeacherAddQuestionComponent  { 
   selectedDifficulty: string = '';
   selectedCategory: string = '';
-  categories: string[] = ['Math', 'Science', 'History', 'Programming'];
+  categories: string[] = ['Variable', 'Loops', 'Functions'];
   questionType: string = 'Code';
   questionData = {
     description: '',
@@ -41,23 +41,47 @@ export class TeacherAddQuestionComponent  {
     }
   }
 
-  submitQuestion(): void {
-    if (!this.selectedDifficulty || !this.selectedCategory || !this.questionData.description) {
-      alert('Please fill out all required fields.');
-      return;
-    }
-
-    // ارسال سوال
-    console.log('Question submitted:', {
-      difficulty: this.selectedDifficulty,
-      category: this.selectedCategory,
-      type: this.questionType,
-      data: this.questionData
-    });
-
-    this.resetForm();
+ 
+// در teacher-add-question.component.ts
+submitQuestion(): void {
+  if (!this.selectedDifficulty || !this.selectedCategory || !this.questionData.description) {
+    alert('Please fill out all required fields.');
+    return;
   }
 
+  // تعریف متغیرها به صورت جداگانه
+  const difficulty = this.selectedDifficulty;
+  const category = this.selectedCategory;
+  const type = this.questionType;
+  const description = this.questionData.description;
+  const code = this.questionData.code;
+  const answer = this.questionData.answer;
+  const feedbackCorrect = this.questionData.feedbackCorrect;
+  const feedbackWrong = this.questionData.feedbackWrong;
+
+
+  // ارسال درخواست با مقادیر تعریف شده
+  this.authservice.submitQuestion(difficulty, category, type, description, code, answer, feedbackCorrect, feedbackWrong)
+    .subscribe({
+      next: (response) => {
+        if (response) {
+          console.log('Question submitted successfully:', response);
+          alert('Question submitted successfully!');
+      
+          
+        } else {
+          console.error('Question submitted but no valid response received.');
+          alert('Something went wrong. Please try again later.');
+        }
+      },
+      error: (err) => {
+        console.error('Error submitting question:', err);
+        alert('Error occurred while submitting the question. Please try again.');
+      }
+    });
+}
+
+  
   resetForm(): void {
     this.selectedDifficulty = '';
     this.selectedCategory = '';
@@ -71,6 +95,8 @@ export class TeacherAddQuestionComponent  {
       hints: ['']
     };
   }
+  
+
 
   // خروج از سیستم
   logout(): void {

@@ -36,28 +36,44 @@
       </button>
     </div>
 
-    <!-- Categories -->
-    <div class="add-question-categories">
-      <button
+<div class="add-question-categories">
+    <button
         class="add-question-category-button"
-        *ngFor="let category of categories"
-        [class.active]="selectedCategory === category"
-        (click)="selectCategory(category)"
-      >
-        {{ category }}
-      </button>
+        [class.active]="selectedCategory === 'Variable'"
+        (click)="selectCategory('Variable')"
+    >
+        Variable
+    </button>
+    <button
+        class="add-question-category-button"
+        [class.active]="selectedCategory === 'Loops'"
+        (click)="selectCategory('Loops')"
+    >
+        Loops
+    </button>
+    <button
+        class="add-question-category-button"
+        [class.active]="selectedCategory === 'Functions'"
+        (click)="selectCategory('Functions')"
+    >
+        Functions
+    </button>
+    <div class="add-question-form-group">
+      <label for="question-type">Question Type</label>
+      <select id="question-type" class="add-question-form-control" [(ngModel)]="questionType" name="questionType">
+        <option value="Code">Code</option>
+        <option value="Multiple Choice">Multiple Choice</option>
+        <option value="True/False">True/False</option>
+      </select>
     </div>
+</div>
+
+
+
 
     <!-- Form Content -->
     <form class="add-question-form" (submit)="submitQuestion()">
-      <div class="add-question-form-group">
-        <label for="question-type">Question Type</label>
-        <select id="question-type" class="add-question-form-control" [(ngModel)]="questionType" name="questionType">
-          <option value="Code">Code</option>
-          <option value="Multiple Choice">Multiple Choice</option>
-          <option value="True/False">True/False</option>
-        </select>
-      </div>
+ 
 
       <div class="add-question-form-group">
         <label for="description">Description Question</label>

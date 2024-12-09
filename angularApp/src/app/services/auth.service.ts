@@ -52,6 +52,40 @@ export class AuthService {
         })
       );
   }
+
+
+// در auth.service.ts
+submitQuestion(
+  difficulty: string,
+  category: string,
+  type: string,
+  description: string,
+  code: string,
+  answer: string,
+  feedbackCorrect: string,
+  feedbackWrong: string
+): Observable<any> {
+  console.log('Sending data:', { difficulty, category, type, description, code, answer, feedbackCorrect, feedbackWrong });
+  debugger;
+  return this.http.post<any>('http://localhost:5000/questions', { })
+ 
+  .pipe(
+    
+    map(response => {
+      console.log('Question submitted successfully:', response);
+      if (response && response.success) {
+        return response;
+      } else {
+        throw new Error('Question submission failed without a valid response.');
+      }
+    }),
+    catchError(error => {
+      console.error('Error submitting question:', error);
+      return throwError(() => new Error(error.message || 'Unknown error occurred'));
+    })
+  );
+}
+
  /*I change this method*/
   login(username: string, password: string) {
     return this.http.post<any>('http://localhost:5000/login', { username, password })
@@ -79,6 +113,10 @@ export class AuthService {
         })
       );
   }
+
+
+
+  
 
   logout() {
     console.log("test")

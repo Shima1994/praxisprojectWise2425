@@ -12,8 +12,13 @@ bcrypt= Bcrypt(app)
 secret= "Very_secret_key_thatshouldntbesavedinplaintext"
 app.config["SECRET_KEY"]="Very_secret_key_thatshouldntbesavedinplaintext"
 jwt=JWTManager(app)
-CORS(app, origins=["http://localhost:4200","http://localhost:4200/tutor","http://localhost:4200/teacher-tutor"])
+#CORS(app, origins=["http://localhost:4200","http://localhost:4200/tutor","http://localhost:4200/teacher-tutor","http://localhost:4200/teacher-add-question"])
 
+
+# فعال کردن CORS برای همه مسیرها و روش‌ها
+#CORS(app, resources={r"/*": {"origins": "*"}})
+
+CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}}, supports_credentials=True)
 client = MongoClient(host='localhost', port=27017)
 db = client['IPT_db']
 
@@ -228,6 +233,10 @@ def save_teacher():
         'data': res_data,
         'message': message
     }), code
+@app.route('/questions', methods=['POST'])
+def add_question():
+    print("Received data:?")
+
 
 
 if __name__=='__main__':

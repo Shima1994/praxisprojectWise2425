@@ -878,7 +878,7 @@ textarea:focus {
     /* Dunkles Blaugrün */
     color: #FFFFFF;
     /* Textfarbe */
-    overflow-y: auto;
+
     /* Scrollen bei Überlauf */
     width: 15%;
     /* Task Groups fixed am oberen Rand */
@@ -1797,7 +1797,7 @@ body, html {
   position: relative; /* برای تعیین مرجع موقعیت دکمه Logout */
   display: flex;
   flex-direction: column;
-  padding: 400px; /* پدینگ کمتر */
+  padding: 150px; /* پدینگ کمتر */
   background-color: #d1e3f0;
   overflow-y: auto;
   justify-content: center; /* قرارگیری افقی در مرکز */
@@ -1874,7 +1874,7 @@ body, html {
     width: 100%;
     height: 100vh;
     background-color: #e6f7ff;
-    margin-top: 20px;
+    margin-top: 200px;
 }
 
 /* Sidebar Styling */
@@ -1907,16 +1907,14 @@ body, html {
 
 /* Main Content Area Styling */
 .add-question-main-content {
-  position: relative; /* برای تعیین مرجع موقعیت دکمه Logout */
-  display: flex;
-  flex-direction: column;
-  padding: 450px; /* پدینگ کمتر */
-  background-color: #d1e3f0;
-  overflow-y: auto;
-  justify-content: center; /* قرارگیری افقی در مرکز */
-  align-items: center; /* قرارگیری عمودی در مرکز */
-  background-color: #d1e3f0; /* پس‌زمینه برای جداسازی */
-
+    display: flex;
+    flex-direction: column;
+    padding: 300px; /* پدینگ کمتر */
+    background-color: #d1e3f0;
+    overflow-y: auto;
+    background-color: #d1e3f0; /* پس‌زمینه برای جداسازی */
+    position: relative;
+    margin-top: 1px;
 }
 
 /* Title Styling */
@@ -1924,7 +1922,7 @@ body, html {
   font-size: 40px; /* فونت کوچک‌تر */
   font-weight: bold;
   color: #555;
-  margin-top: 200px;
+  margin-top: -200px;
 }
 
 /* Difficulty Levels Styling */
@@ -2011,6 +2009,38 @@ body, html {
 /* Button hover effects */
 .add-question-add-hint-button:hover, .add-question-submit-button:hover {
     background-color: #66c5ff;
+}
+
+.add-question-categories {
+    display: flex; /* استفاده از فلکس */
+    flex-direction: column; /* تغییر حالت به عمودی */
+    justify-content: flex-start; /* تنظیم محتوای داخلی در بالا */
+    align-items: flex-start; /* چپ چین کردن دکمه‌ها به صورت افقی */
+    gap: 1rem; /* فاصله عمودی بین دکمه‌ها */
+    margin-top: 1rem; /* فاصله از بالا */
+    margin-left: 0px; /* فاصله از چپ */
+    position: absolute; /* برای قرارگیری در کنار منو */
+    left: 10px; /* تنظیم فاصله از سمت چپ */
+    top: 400px; /* تنظیم فاصله از بالا */
+
+}
+.add-question-category-button {
+    padding: 20px;
+    border-radius: 900px;
+    background-color: white;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: black; /* اضافه کردن این خط برای رنگ مشکی متن */
+}
+
+.add-question-category-button:hover {
+    background-color: #e0f7fa; /* تغییر رنگ هنگام هاور */
+    transform: scale(1.05); /* کمی بزرگ‌تر هنگام هاور */
+}
+
+.add-question-category-button.active {
+    background-color:  #8df5a2; /* رنگ پس‌زمینه هنگام انتخاب */
 }
 
 
