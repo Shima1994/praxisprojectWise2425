@@ -66,39 +66,6 @@ def save_user():
     return jsonify({'status': status, "data": res_data, "message":message}), code
 
 
-
-
-@app.route('/test', methods=['POST'])
-def save_usertest():
-    code = 500
-    res_data = {}
-    message = ""
-    status = "fail"
-    try:
-        data = request.get_json()
-        username=data['username']  
-        firstName = data['firstName']  # اضافه کردن firstName
-        lastName = data['lastName']    # اضافه کردن lastName
-    
-        # hashing the password so it's not stored in the db as it was
-        data['UserCreated'] = datetime.now()
-        data['firstName'] = firstName  # ذخیره firstName
-        data['lastName'] = lastName    # ذخیره lastName
-        access_token=create_access_token(identity=username)
-        res = db.questions.insert_one(data)
-        if res.acknowledged:
-                status = "successful"
-                message = "user created successfully"
-                code = 200
-                res_data={"username":username, "token":access_token, 
-                          "firstName": data["firstName"],  "lastName": data["lastNamel"] }
-    except Exception as ex:
-        message = f"{ex}"
-        status = "fail"
-        code = 500    
-    return jsonify({'status': status, "data": res_data, "message":message}), code
-
-
 @app.route('/addQuestion', methods=['POST'])
 def save_question():
     code = 500
@@ -311,67 +278,35 @@ def save_teacher():
         'message': message
     }), code
 
-@app.route('/question', methods=['POST'])
 
-def add_question():
-    print("Received data:", data)
-    code = 500
-    res_data = {}
-    message = ""
-    status = "fail"
+@app.route('/getquestions', methods=['GET'])
+def get_questions():
     try:
-        data = request.get_json()
-        firstName = data['firstName']  # اضافه کردن firstName
-        lastName = data['lastName']    # اضافه کردن lastName
-        res = db.users.insert_one(data)
-        data['firstName'] = firstName  # ذخیره firstName
-        data['lastName'] = lastName    # ذخیره lastName
-        res = db.users.insert_one(data)
-        if res.acknowledged:
-          status = "successful"
-          message = "user created successfully"
-          code = 200
-          res_data={"firstName": data["firstName"],  "lastName": data["lastNamel"] }
-
-
-
-        print("Received data:", data)
-    except Exception as ex:
-        message = f"{ex}"
-        status = "fail"
-        code = 500    
-    return jsonify({'status': status, "data": res_data, "message":message}), code
-
-
-
-
-
-
-@app.route('/gav', methods=['POST'])
-def save_users():
-    code = 500
-    res_data = {}
-    message = ""
-    status = "fail"
-    try:
-        data = request.get_json()
-     
-        firstName = data['firstName']  # اضافه کردن firstName
-        lastName = data['lastName']    # اضافه کردن lastName
+        questions = list(db.questions.find({}, {"_id": 1, "description": 1, "code": 1, "answer": 1, 
+                                                "feedbackCorrect": 1, "feedbackWrong": 1, "hints": 1, 
+                                                "questionType": 1, "selectedCategory": 1, "selectedDifficulty": 1}))
+        # تبدیل ObjectId به رشته
+        for question in questions:
+            question['_id'] = str(question['_id'])
         
-        data['firstName'] = firstName  # ذخیره firstName
-        data['lastName'] = lastName    # ذخیره lastName
-           
-        res = db.users.insert_one(data)
-        if res.acknowledged:
-                status = "successful"
-                message = "user created successfully"
-                code = 200
-                res_data={"firstName": data["firstName"],  "lastName": data["lastNamel"] }
+        return jsonify({"status": "successful", "data": questions, "message": "Questions fetched successfully"}), 200
     except Exception as ex:
-        message = f"{ex}"
-        status = "fail"
-        code = 500    
-    return jsonify({'status': status, "data": res_data, "message":message}), code
+        return jsonify({"status": "fail", "data": [], "message": f"Error fetching questions: {ex}"}), 500
+    
+
+
+
+@app.route('/questions/<question_id>', methods=['DELETE'])
+def delete_question(question_id):
+    try:
+        result = db.questions.delete_one({"_id": ObjectId(question_id)})
+        if result.deleted_count > 0:
+            return jsonify({"status": "successful", "message": "Question deleted successfully"}), 200
+        else:
+            return jsonify({"status": "fail", "message": "Question not found"}), 404
+    except Exception as ex:
+        return jsonify({"status": "fail", "message": f"Error deleting question: {ex}"}), 500
+
+
 if __name__=='__main__':
     app.run(debug=True)

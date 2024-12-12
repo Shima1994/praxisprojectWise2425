@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-
+  private apiUrl = 'http://localhost:5000';
   private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public currentUser: Observable<any> = this.currentUserSubject.asObservable();
   public isLoggedIn: Observable<boolean> = this.currentUser.pipe(map(user => !!user));
@@ -28,6 +28,16 @@ export class AuthService {
   getCurrentUserToken(): string | null {
     return this.currentUserSubject.value ? this.currentUserSubject.value.token : null;
   }
+
+
+  getQuestions(): Observable<{status: string, data: any[], message: string}> {
+    return this.http.get<{status: string, data: any[], message: string}>(`${this.apiUrl}/getquestions`);
+}
+
+deleteQuestion(questionId: string): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/questions/${questionId}`);
+}
+
  /*I change this method*/
   signup(firstName: string, lastName: string,username: string, password: string) {
     debugger;
@@ -129,10 +139,6 @@ submitQuestion(
         })
       );
   }
-
-
-
-  
 
   logout() {
     console.log("test")

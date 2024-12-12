@@ -1,63 +1,64 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { RouterOutlet } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-teacher-list-question',
   standalone: true,
-  imports: [ReactiveFormsModule,RouterOutlet, RouterModule, FormsModule],
+  imports: [CommonModule,RouterOutlet, RouterModule],
   templateUrl: './teacher-list-question.component.html',
-  styleUrls: ['./teacher-list-question.component.sass'], // استفاده از styleUrls
+  styleUrls: ['./teacher-list-question.component.sass'],
 })
-export class TeacherListQuestionComponent  {
+export class TeacherListQuestionComponent implements OnInit {
+  questionList: any[] = [];
 
-  // فرم ثبت‌نام
-  signupForm = this.fb.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    username: ['', [Validators.required]],
-    password: ['', Validators.required]
-  });
-  constructor(private authservice: AuthService,
-    private fb: FormBuilder,
-    private router: Router
-  ) {} // داخل کلاس
+  constructor(private authservice: AuthService) {}
 
-
-
-  onSubmitRegister() {
-    if (this.signupForm.valid) {
-      const { firstName, lastName,username} = this.signupForm.value;
-      if (typeof username === 'string' 
-        && typeof firstName === 'string'&& typeof lastName === 'string'
-      ) {
-        this.authservice.test(firstName,lastName,username).subscribe({
-          next: (user) => {
-            if (user && user.token) {
-              console.log('Signup successful');
-            //    window.location.reload();
-              this.router.navigateByUrl('/teacher-tutor');
-            } else {
-              console.error('Signup successful, but no token received');
-            }
-          },
-          error: (error) => {
-            alert('Username already existed.');
-            console.error('Signup failed: Username already existed.', error);
-          }
-        });
-      } else {
-        console.error('Username or password is missing or invalid.');
-      }
-    }
+  ngOnInit(): void {
+    this.fetchQuestions();
   }
 
+  fetchQuestions(): void {
+    this.authservice.getQuestions().subscribe({
+        next: (response) => {
+            if (response && response.data && Array.isArray(response.data)) {
+                this.questionList = response.data; 
+                console.log('Questions fetched successfully:', response.data);
+            } else {
+                console.error('Invalid response format:', response);
+            }
+        },
+        error: (error) => {
+            console.error('Error fetching questions:', error);
+        },
+    });
+}
 
+   removeQuestion(questionId: string): void {
+    this.authservice.deleteQuestion(questionId).subscribe({
+       next: () => {
+      console.log('Question deleted successfully');
+        this.questionList = this.questionList.filter(
+           (question) => question._id !== questionId
+         );
+       },
+       error: (error) => {
+         console.error('Error deleting question:', error);
+      },
+    });
+   }
   logout(): void {
-    this.authservice.logoutTeacher(); // فراخوانی متد logout از AuthService
+    this.authservice.logoutTeacher();
   }
 }
+  // editQuestion(questionId: string): void {
+  //   console.log('Editing question with ID:', questionId);
+    // Add logic to navigate to edit page or open an edit modal
+  // }
+
+
+
+
+

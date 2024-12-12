@@ -3,34 +3,101 @@
   <div class="add-question-sidebar">
     <h2 class="sidebar-title">Menu</h2>
     <button class="teacher-tutor-menu-item" routerLink="/teacher-tutor">Info</button>
-    <button class="teacher-tutor-menu-item" routerLink="/teacher-add-question">Add Question</button>
+    <button class="teacher-tutor-menu-item " routerLink="/teacher-add-question">Add Question</button>
     <button class="teacher-tutor-menu-item active" routerLink="/teacher-list-question">List Question</button>
   </div>
 
   <!-- Main Content -->
   <div class="add-question-main-content">
     <h1 class="add-question-page-title">List Question Page</h1>
+
+          <!-- Table Section -->
+          <table class="list-question-table">
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>Answer</th>
+                <th>Code Answer</th>
+                <th>Difficulty</th>
+                <th>Category</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let q of questionList">
+                <td>{{ q.description }}</td>
+                <td>{{ q.answer }}</td>
+                <td>{{ q.code || '-' }}</td>
+                <td>{{ q.selectedDifficulty }}</td>
+                <td>{{ q.selectedCategory }}</td>
+                <td>
+                <button class="edit-btn" >Edit</button>
+                <button class="remove-btn" (click)="removeQuestion(q._id)">Remove</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
     <button (click)="logout()" class="logout-btn">Logout</button>
 
-    <div class="teacher-login-container">
-      <div class="teacher-login-heading">Test</div>
-      <form [formGroup]="signupForm" (ngSubmit)="onSubmitRegister()" class="teacher-signup-form">
-        <div>
-          <input class="teacher-login-input" type="text" formControlName="firstName" placeholder="First Name">
-        </div>
-        <div>
-          <input class="teacher-login-input" type="text" formControlName="lastName" placeholder="Last Name">
-        </div>
-        <div>
-          <input class="teacher-login-input" type="text" formControlName="username" placeholder="username">
-        </div>
-        <div>
-        
-          <input class="teacher-login-input" type="password" formControlName="password" placeholder="Password">
-        </div>
-        <button type="submit" class="teacher-login-button">Test</button>
-      </form>
-    </div>
+
   </div>
+
+
+
 </div>
+
+<style>
+
+
+.list-question-table {
+  width: 150%; /* جدول تمام عرض صفحه شود */
+  margin-top: 20px; /* فاصله بیشتر از بالا */
+  border-collapse: collapse; /* خطوط مرزی جدول به هم نزدیک شوند */
+  font-size: 16px; /* فونت بزرگ‌تر */
+}
+.list-question-table th, .list-question-table td {
+  border: 1px solid #ddd;
+  padding: 10px; /* فضای داخلی بیشتر */
+  text-align: center;
+}
+
+.list-question-table th {
+  background-color: #37a9f5;
+  color: white;
+  font-weight: bold;
+}
+
+.edit-btn, .remove-btn {
+  padding: 8px 15px; /* اندازه دکمه‌ها بزرگ‌تر شود */
+  font-size: 14px; /* فونت دکمه‌ها بزرگ‌تر شود */
+}
+
+
+.edit-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* افکت تغییر رنگ */
+}
+
+.edit-btn:hover {
+  background-color: #45a049; /* رنگ روشن‌تر هنگام هاور */
+}
+
+
+.remove-btn {
+  background-color: #FF5733;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* افکت تغییر رنگ */
+}
+
+.remove-btn:hover {
+  background-color: #e74c3c; /* رنگ روشن‌تر هنگام هاور */
+}
+</style>
 
