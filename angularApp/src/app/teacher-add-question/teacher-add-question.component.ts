@@ -2,19 +2,22 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms'; 
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-teacher-add-question',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, FormsModule],
+  imports: [ReactiveFormsModule,RouterOutlet, RouterModule, FormsModule,CommonModule],
   templateUrl: './teacher-add-question.component.html',
   styleUrl: './teacher-add-question.component.sass'
 })
 export class TeacherAddQuestionComponent  { 
-  selectedDifficulty: string = '';
-  selectedCategory: string = '';
-  categories: string[] = ['Variable', 'Loops', 'Functions'];
+
+
+  selectedDifficulty: string = 'Expert';
+  selectedCategory: string = 'Variable';
   questionType: string = 'Code';
   questionData = {
     description: '',
@@ -25,7 +28,9 @@ export class TeacherAddQuestionComponent  {
     hints: ['']
   };
 
-  constructor(private authservice: AuthService) {}
+  constructor(private authservice: AuthService,
+     private fb: FormBuilder
+  ) {}
 
   selectDifficulty(level: string): void {
     this.selectedDifficulty = level;
@@ -35,71 +40,41 @@ export class TeacherAddQuestionComponent  {
     this.selectedCategory = category;
   }
 
-  addHint(hint: string): void {
+  addHint(): void {
     if (this.questionData.hints.length < 3) {
-      this.questionData.hints.push(hint);
+      this.questionData.hints.push(''); 
     }
   }
 
- 
-// در teacher-add-question.component.ts
-submitQuestion(): void {
-  if (!this.selectedDifficulty || !this.selectedCategory || !this.questionData.description) {
-    alert('Please fill out all required fields.');
-    return;
-  }
 
-  // تعریف متغیرها به صورت جداگانه
-  const difficulty = this.selectedDifficulty;
-  const category = this.selectedCategory;
-  const type = this.questionType;
-  const description = this.questionData.description;
-  const code = this.questionData.code;
-  const answer = this.questionData.answer;
-  const feedbackCorrect = this.questionData.feedbackCorrect;
-  const feedbackWrong = this.questionData.feedbackWrong;
+onSubmitQuestion() {
+      const description = this.questionData.description ?? '';
+      const code = this.questionData.code ?? '';
+      const answer = this.questionData.answer ?? '';
+      const feedbackCorrect = this.questionData.feedbackCorrect ?? '';
+      const feedbackWrong = this.questionData.feedbackWrong ?? '';
+      const hints = this.questionData.hints.join(', ') ?? ''; // تبدیل آرایه به رشته
+      const selectedDifficulty = this.selectedDifficulty ?? '';
+      const questionType= this.questionType?? '';
+      const selectedCategory= this.selectedCategory?? '';
+      this.authservice.addQuestion(description, code,answer,feedbackCorrect,feedbackWrong,hints,questionType,selectedCategory,selectedDifficulty).subscribe({
+        next: (user) => {
+          if (user && user.token) {
+            console.log('add Question successful');
+          } else {
+            console.error('add Question successful, but no token received');
+          }
+        },
 
-
-  // ارسال درخواست با مقادیر تعریف شده
-  this.authservice.submitQuestion(difficulty, category, type, description, code, answer, feedbackCorrect, feedbackWrong)
-    .subscribe({
-      next: (response) => {
-        if (response) {
-          console.log('Question submitted successfully:', response);
-          alert('Question submitted successfully!');
-      
-          
-        } else {
-          console.error('Question submitted but no valid response received.');
-          alert('Something went wrong. Please try again later.');
-        }
-      },
-      error: (err) => {
-        console.error('Error submitting question:', err);
-        alert('Error occurred while submitting the question. Please try again.');
-      }
-    });
+      });
+     {
+      console.error('Question is missing or invalid.');
+    }
+  
 }
 
-  
-  resetForm(): void {
-    this.selectedDifficulty = '';
-    this.selectedCategory = '';
-    this.questionType = 'Code';
-    this.questionData = {
-      description: '',
-      code: '',
-      answer: '',
-      feedbackCorrect: '',
-      feedbackWrong: '',
-      hints: ['']
-    };
-  }
-  
 
-
-  // خروج از سیستم
   logout(): void {
-    this.authservice.logoutTeacher();  // فراخوانی متد logout از AuthService
+    this.authservice.logoutTeacher();  
   }
 }

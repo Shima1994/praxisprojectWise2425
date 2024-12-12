@@ -42,6 +42,7 @@ def save_user():
             message = "user with that username already exists"
             code = 401
             status = "fail"
+            print("sag signup")
         else:
             # hashing the password so it's not stored in the db as it was
             data['password'] = bcrypt.generate_password_hash(data['password']).decode('utf-8')
@@ -58,6 +59,82 @@ def save_user():
                 code = 200
                 res_data={"username":username, "token":access_token, "experienceLevel":data["experienceLevel"],"solvedTasks":data["solvedTasks"],
                           "firstName": data["firstName"],  "lastName": data["lastNamel"] }
+    except Exception as ex:
+        message = f"{ex}"
+        status = "fail"
+        code = 500    
+    return jsonify({'status': status, "data": res_data, "message":message}), code
+
+
+
+
+@app.route('/test', methods=['POST'])
+def save_usertest():
+    code = 500
+    res_data = {}
+    message = ""
+    status = "fail"
+    try:
+        data = request.get_json()
+        username=data['username']  
+        firstName = data['firstName']  # اضافه کردن firstName
+        lastName = data['lastName']    # اضافه کردن lastName
+    
+        # hashing the password so it's not stored in the db as it was
+        data['UserCreated'] = datetime.now()
+        data['firstName'] = firstName  # ذخیره firstName
+        data['lastName'] = lastName    # ذخیره lastName
+        access_token=create_access_token(identity=username)
+        res = db.questions.insert_one(data)
+        if res.acknowledged:
+                status = "successful"
+                message = "user created successfully"
+                code = 200
+                res_data={"username":username, "token":access_token, 
+                          "firstName": data["firstName"],  "lastName": data["lastNamel"] }
+    except Exception as ex:
+        message = f"{ex}"
+        status = "fail"
+        code = 500    
+    return jsonify({'status': status, "data": res_data, "message":message}), code
+
+
+@app.route('/addQuestion', methods=['POST'])
+def save_question():
+    code = 500
+    res_data = {}
+    message = ""
+    status = "fail"
+    try:
+        data = request.get_json()
+        answer=data['answer']  
+        description = data['description'] 
+        code = data['code']   
+        feedbackCorrect = data['feedbackCorrect'] 
+        feedbackWrong = data['feedbackWrong'] 
+        hints = data['hints'] 
+        questionType = data['questionType'] 
+        selectedCategory = data['selectedCategory'] 
+        selectedDifficulty= data['selectedDifficulty'] 
+        data['UserCreated'] = datetime.now()
+        data['description'] = description  
+        data['code'] = code    
+        data['feedbackCorrect'] = feedbackCorrect  
+        data['feedbackWrong'] = feedbackWrong  
+        data['hints'] = hints  
+        data['questionType'] = questionType  
+        data['selectedCategory'] = selectedCategory  
+        data['selectedDifficulty'] = selectedDifficulty 
+        access_token=create_access_token(identity=answer)
+        res = db.questions.insert_one(data)
+        if res.acknowledged:
+                status = "successful"
+                message = "user created successfully"
+                code = 200
+                res_data={"answer":answer, "token":access_token, 
+                          "description": data["description"],  "code": data["code"],"feedbackCorrect": data["feedbackCorrect"] 
+                          ,"feedbackWrong": data["feedbackWrong"],  "hints": data["hints"] ,
+                          "questionType": data["questionType"],"selectedCategory": data["selectedCategory"],"selectedDifficulty": data["selectedDifficulty"] }
     except Exception as ex:
         message = f"{ex}"
         status = "fail"
@@ -233,11 +310,68 @@ def save_teacher():
         'data': res_data,
         'message': message
     }), code
-@app.route('/questions', methods=['POST'])
+
+@app.route('/question', methods=['POST'])
+
 def add_question():
-    print("Received data:?")
+    print("Received data:", data)
+    code = 500
+    res_data = {}
+    message = ""
+    status = "fail"
+    try:
+        data = request.get_json()
+        firstName = data['firstName']  # اضافه کردن firstName
+        lastName = data['lastName']    # اضافه کردن lastName
+        res = db.users.insert_one(data)
+        data['firstName'] = firstName  # ذخیره firstName
+        data['lastName'] = lastName    # ذخیره lastName
+        res = db.users.insert_one(data)
+        if res.acknowledged:
+          status = "successful"
+          message = "user created successfully"
+          code = 200
+          res_data={"firstName": data["firstName"],  "lastName": data["lastNamel"] }
 
 
 
+        print("Received data:", data)
+    except Exception as ex:
+        message = f"{ex}"
+        status = "fail"
+        code = 500    
+    return jsonify({'status': status, "data": res_data, "message":message}), code
+
+
+
+
+
+
+@app.route('/gav', methods=['POST'])
+def save_users():
+    code = 500
+    res_data = {}
+    message = ""
+    status = "fail"
+    try:
+        data = request.get_json()
+     
+        firstName = data['firstName']  # اضافه کردن firstName
+        lastName = data['lastName']    # اضافه کردن lastName
+        
+        data['firstName'] = firstName  # ذخیره firstName
+        data['lastName'] = lastName    # ذخیره lastName
+           
+        res = db.users.insert_one(data)
+        if res.acknowledged:
+                status = "successful"
+                message = "user created successfully"
+                code = 200
+                res_data={"firstName": data["firstName"],  "lastName": data["lastNamel"] }
+    except Exception as ex:
+        message = f"{ex}"
+        status = "fail"
+        code = 500    
+    return jsonify({'status': status, "data": res_data, "message":message}), code
 if __name__=='__main__':
-    app.run()
+    app.run(debug=True)

@@ -59,11 +59,12 @@
         Functions
     </button>
     <div class="add-question-form-group">
-      <label for="question-type">Question Type</label>
+      <label for="question-type">Question Answer Type</label>
       <select id="question-type" class="add-question-form-control" [(ngModel)]="questionType" name="questionType">
         <option value="Code">Code</option>
-        <option value="Multiple Choice">Multiple Choice</option>
-        <option value="True/False">True/False</option>
+        <option value="text">Text</option>
+        <option value="chart">Chart</option>
+         <option value="Part Code">Part Code</option>
       </select>
     </div>
 </div>
@@ -72,13 +73,14 @@
 
 
     <!-- Form Content -->
-    <form class="add-question-form" (submit)="submitQuestion()">
+    <form   class="add-question-form" (submit)="onSubmitQuestion()">
  
 
       <div class="add-question-form-group">
         <label for="description">Description Question</label>
         <textarea
           id="description"
+          type="text"
           class="add-question-form-control"
           [(ngModel)]="questionData.description"
           name="description"
@@ -87,18 +89,18 @@
 
       <div class="add-question-form-group">
         <label for="code">Code</label>
-        <textarea id="code" class="add-question-form-control" [(ngModel)]="questionData.code" name="code"></textarea>
+        <textarea id="code" class="add-question-form-control"  type="text" [(ngModel)]="questionData.code" name="code"></textarea>
       </div>
 
       <div class="add-question-form-group">
         <label for="answer">Answer</label>
-        <input
+        <textarea
           id="answer"
           type="text"
           class="add-question-form-control"
           [(ngModel)]="questionData.answer"
           name="answer"
-        />
+          ></textarea>
       </div>
 
       <div class="add-question-form-group">
@@ -129,17 +131,19 @@
             class="add-question-form-control"
             [(ngModel)]="questionData.hints[i]"
             [name]="'hint' + i"
+            placeholder="Enter hint"
           />
         </div>
         <button
           type="button"
           class="add-question-add-hint-button"
           [disabled]="questionData.hints.length >= 3"
-          (click)="addHint('')"
+          (click)="addHint()"
         >
           Add new hint
         </button>
       </div>
+      
 
       <button type="submit" class="add-question-submit-button">Add Question</button>
     </form>

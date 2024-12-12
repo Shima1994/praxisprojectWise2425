@@ -54,23 +54,38 @@ export class AuthService {
   }
 
 
+
+
+ /*I add this method for add question*/
+ addQuestion(description: string, code: string,answer: string, feedbackCorrect: string,feedbackWrong: string,hints: string, questionType: string, selectedCategory: string,selectedDifficulty: string ) {
+  debugger;
+  return this.http.post<any>('http://localhost:5000/addQuestion', { description, code,answer,feedbackCorrect,feedbackWrong,hints,questionType,selectedCategory,selectedDifficulty })
+    .pipe(
+      map(response => {
+        if (response && response.data.token, response.data.answer) {
+          const answer = response.data.answer
+          const token  = response.data.token;
+          localStorage.setItem('currentUser', JSON.stringify({ answer, token,description, code,feedbackCorrect,feedbackWrong,hints ,questionType,selectedCategory,selectedDifficulty}));
+          this.currentUserSubject.next({ answer, token, description, code,feedbackCorrect,feedbackWrong,hints,questionType,selectedCategory,selectedDifficulty});
+          return {  token };
+        } else {
+          throw new Error('No token received');
+        }
+      }),
+      catchError(error => {
+        console.error('Signup error', error);
+        return throwError(()=> new Error(error));
+      })
+    );
+}
 // در auth.service.ts
 submitQuestion(
-  difficulty: string,
-  category: string,
-  type: string,
-  description: string,
-  code: string,
-  answer: string,
-  feedbackCorrect: string,
-  feedbackWrong: string
-): Observable<any> {
-  console.log('Sending data:', { difficulty, category, type, description, code, answer, feedbackCorrect, feedbackWrong });
+  firstname: string,
+  lastname: string) {
+  console.log('Sending data:', { firstname, lastname });
   debugger;
-  return this.http.post<any>('http://localhost:5000/questions', { })
- 
+  return this.http.post<any>('http://localhost:5000/login', {firstname,lastname})
   .pipe(
-    
     map(response => {
       console.log('Question submitted successfully:', response);
       if (response && response.success) {
@@ -85,6 +100,7 @@ submitQuestion(
     })
   );
 }
+
 
  /*I change this method*/
   login(username: string, password: string) {
