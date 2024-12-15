@@ -67,16 +67,16 @@ deleteQuestion(questionId: string): Observable<any> {
 
 
  /*I add this method for add question*/
- addQuestion(description: string, code: string,answer: string, feedbackCorrect: string,feedbackWrong: string,hints: string, questionType: string, selectedCategory: string,selectedDifficulty: string ) {
+ addQuestion(description: string, code: string,answer: string, feedbackCorrect: string,feedbackWrong: string,hints: string, questionType: string, selectedCategory: string,selectedDifficulty: string,currentUsername:string  ) {
   debugger;
-  return this.http.post<any>('http://localhost:5000/addQuestion', { description, code,answer,feedbackCorrect,feedbackWrong,hints,questionType,selectedCategory,selectedDifficulty })
+  return this.http.post<any>('http://localhost:5000/addQuestion', { description, code,answer,feedbackCorrect,feedbackWrong,hints,questionType,selectedCategory,selectedDifficulty,currentUsername })
     .pipe(
       map(response => {
         if (response && response.data.token, response.data.answer) {
           const answer = response.data.answer
           const token  = response.data.token;
-          localStorage.setItem('currentUser', JSON.stringify({ answer, token,description, code,feedbackCorrect,feedbackWrong,hints ,questionType,selectedCategory,selectedDifficulty}));
-          this.currentUserSubject.next({ answer, token, description, code,feedbackCorrect,feedbackWrong,hints,questionType,selectedCategory,selectedDifficulty});
+          localStorage.setItem('currentUser', JSON.stringify({ answer, token,description, code,feedbackCorrect,feedbackWrong,hints ,questionType,selectedCategory,selectedDifficulty,currentUsername}));
+          this.currentUserSubject.next({ answer, token, description, code,feedbackCorrect,feedbackWrong,hints,questionType,selectedCategory,selectedDifficulty,currentUsername});
           return {  token };
         } else {
           throw new Error('No token received');

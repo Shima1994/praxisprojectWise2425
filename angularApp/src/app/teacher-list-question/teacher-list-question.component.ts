@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-teacher-list-question',
@@ -14,7 +15,10 @@ import { CommonModule } from '@angular/common';
 export class TeacherListQuestionComponent implements OnInit {
   questionList: any[] = [];
 
-  constructor(private authservice: AuthService) {}
+  constructor(private authservice: AuthService,
+    private router: Router
+
+  ) {}
 
   ngOnInit(): void {
     this.fetchQuestions();
@@ -52,12 +56,14 @@ export class TeacherListQuestionComponent implements OnInit {
   logout(): void {
     this.authservice.logoutTeacher();
   }
-}
-  // editQuestion(questionId: string): void {
-  //   console.log('Editing question with ID:', questionId);
-    // Add logic to navigate to edit page or open an edit modal
-  // }
 
+editQuestion(question: any): void {
+  debugger;
+  localStorage.setItem('editQuestion', JSON.stringify(question));
+  this.router.navigate(['/teacher-add-question']);
+}
+
+}
 
 
 

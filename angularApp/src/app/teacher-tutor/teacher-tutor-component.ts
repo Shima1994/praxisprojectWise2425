@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router';
 export class TeacherTutorComponent implements OnInit {
   // خواندن اطلاعات کاربر از localStorage
   currentUser: string | null = localStorage.getItem('currentUser');
- 
+  
 
   currentUserInfo: any = this.currentUser ? JSON.parse(this.currentUser) : null;
   
@@ -29,9 +29,10 @@ export class TeacherTutorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
     // تنظیم توابع سراسری سرویس لاگینگ
     (window as any).loggingService = this.loggingService;
-
+     debugger;
     // تابعی برای بروزرسانی لاگ‌ها
     (window as any).logHelperFunction = (data: { [key: string]: any }, token: string) => {
       this.loggingService.updateLogs(data, token).subscribe(

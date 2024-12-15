@@ -31,7 +31,7 @@
                 <td>{{ q.selectedDifficulty }}</td>
                 <td>{{ q.selectedCategory }}</td>
                 <td>
-                <button class="edit-btn" >Edit</button>
+                <button class="edit-btn" (click)= editQuestion(q)>Edit</button>
                 <button class="remove-btn" (click)="removeQuestion(q._id)">Remove</button>
                 </td>
               </tr>

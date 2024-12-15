@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms'; 
@@ -13,9 +13,15 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
   templateUrl: './teacher-add-question.component.html',
   styleUrl: './teacher-add-question.component.sass'
 })
-export class TeacherAddQuestionComponent  { 
+export class TeacherAddQuestionComponent implements OnInit  { 
 
-
+  // خواندن اطلاعات کاربر از localStorage
+  currentUser: string | null = localStorage.getItem('currentUser');
+  
+  currentUserInfo: any = this.currentUser ? JSON.parse(this.currentUser) : null;
+  
+  // متغیرها برای نگهداری نام کاربر
+  currentUsername: string = this.currentUserInfo?.username || '';
   selectedDifficulty: string = 'Expert';
   selectedCategory: string = 'Variable';
   questionType: string = 'Code';
@@ -32,6 +38,29 @@ export class TeacherAddQuestionComponent  {
      private fb: FormBuilder
   ) {}
 
+
+  ngOnInit(): void {
+    this.currentUser = localStorage.getItem('currentUser');
+    this.currentUserInfo = this.currentUser ? JSON.parse(this.currentUser) : null;
+    this.currentUsername = this.currentUserInfo?.username || '';
+    debugger;
+    const editQuestion = localStorage.getItem('editQuestion');
+    if (editQuestion) {
+      this.questionData = JSON.parse(editQuestion);
+      this.questionData.answer = this.questionData.answer ;
+      this.questionData.feedbackCorrect = this.questionData.feedbackCorrect ;
+      this.questionData.description = this.questionData.description;
+      this.questionData.feedbackWrong = this.questionData.feedbackWrong;
+      this.questionData.code = this.questionData.code;
+      this.questionData.hints = this.questionData.hints;
+     
+
+    }
+
+
+
+  }
+  
   selectDifficulty(level: string): void {
     this.selectedDifficulty = level;
   }
@@ -57,7 +86,12 @@ onSubmitQuestion() {
       const selectedDifficulty = this.selectedDifficulty ?? '';
       const questionType= this.questionType?? '';
       const selectedCategory= this.selectedCategory?? '';
-      this.authservice.addQuestion(description, code,answer,feedbackCorrect,feedbackWrong,hints,questionType,selectedCategory,selectedDifficulty).subscribe({
+      const currentUsername= this.currentUsername?? '';
+
+
+      
+      debugger;
+      this.authservice.addQuestion(description, code,answer,feedbackCorrect,feedbackWrong,hints,questionType,selectedCategory,selectedDifficulty,currentUsername).subscribe({
         next: (user) => {
           if (user && user.token) {
             console.log('add Question successful');
