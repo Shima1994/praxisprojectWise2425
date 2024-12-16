@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';  // add this import
+
 
 @Component({
   selector: 'app-teacher-add-question',
   standalone: true,
-  imports: [ReactiveFormsModule,RouterOutlet, RouterModule, FormsModule,CommonModule],
+  imports: [ReactiveFormsModule,RouterOutlet, FormsModule,CommonModule,RouterModule],
   templateUrl: './teacher-add-question.component.html',
   styleUrl: './teacher-add-question.component.sass'
 })
@@ -31,36 +33,41 @@ export class TeacherAddQuestionComponent implements OnInit  {
     answer: '',
     feedbackCorrect: '',
     feedbackWrong: '',
-    hints: ['']
+    hints: [''],
+    selectedDifficulty: 'Expert',
+    selectedCategory: 'Variable',
+    questionType: 'Code',
+    _id: null as string | null // شناسه سؤال در صورت ویرایش
   };
 
-  constructor(private authservice: AuthService,
-     private fb: FormBuilder
+  isLoading: boolean = false; // وضعیت بارگذاری (Loading)
+  message: string | null = null; // پیام موفقیت یا خطا
+
+  constructor(private authService: AuthService,
+     private router:Router
   ) {}
 
 
   ngOnInit(): void {
-    this.currentUser = localStorage.getItem('currentUser');
-    this.currentUserInfo = this.currentUser ? JSON.parse(this.currentUser) : null;
-    this.currentUsername = this.currentUserInfo?.username || '';
-    debugger;
-    const editQuestion = localStorage.getItem('editQuestion');
-    if (editQuestion) {
-      this.questionData = JSON.parse(editQuestion);
-      this.questionData.answer = this.questionData.answer ;
-      this.questionData.feedbackCorrect = this.questionData.feedbackCorrect ;
-      this.questionData.description = this.questionData.description;
-      this.questionData.feedbackWrong = this.questionData.feedbackWrong;
-      this.questionData.code = this.questionData.code;
-      this.questionData.hints = this.questionData.hints;
-     
-
-    }
-
-
+    this.loadCurrentUser();
+    this.loadEditQuestionData();
 
   }
   
+  private loadCurrentUser(): void {
+    this.currentUser = localStorage.getItem('currentUser');
+    this.currentUserInfo = this.currentUser ? JSON.parse(this.currentUser) : null;
+    this.currentUsername = this.currentUserInfo?.username || '';
+  }
+  private loadEditQuestionData(): void {
+    const editQuestion = localStorage.getItem('editQuestion');
+    if (editQuestion) {
+      this.questionData = JSON.parse(editQuestion);
+      this.selectedDifficulty = this.questionData.selectedDifficulty || 'Expert';
+      this.selectedCategory = this.questionData.selectedCategory || 'Variable';
+      this.questionType = this.questionData.questionType || 'Code';
+    }
+  }
   selectDifficulty(level: string): void {
     this.selectedDifficulty = level;
   }
@@ -75,40 +82,53 @@ export class TeacherAddQuestionComponent implements OnInit  {
     }
   }
 
+  onSubmitQuestion(): void {
+    debugger;
+    const questionPayload = {
+      description: this.questionData.description || '',
+      code: this.questionData.code || '',
+      answer: this.questionData.answer || '',
+      feedbackCorrect: this.questionData.feedbackCorrect || '',
+      feedbackWrong: this.questionData.feedbackWrong || '',
+      hints: this.questionData.hints || [],
+      selectedDifficulty: this.selectedDifficulty || '',
+      questionType: this.questionType || '',
+      selectedCategory: this.selectedCategory || '',
+      currentUsername: this.currentUsername || ''
+    };
+    
+    if (this.questionData['_id']) {
+      // ویرایش سؤال
+      this.authService.updateQuestion(this.questionData['_id'], questionPayload).subscribe({
+        next: () => {
+         //   console.log('Question updated successfully');
+          this.message = 'Question updated successfully';
+          localStorage.removeItem('editQuestion');
+          //  window.location.reload();
+          this.router.navigate(['/teacher-list-question']); // بازگشت به لیست سؤالات
 
-onSubmitQuestion() {
-      const description = this.questionData.description ?? '';
-      const code = this.questionData.code ?? '';
-      const answer = this.questionData.answer ?? '';
-      const feedbackCorrect = this.questionData.feedbackCorrect ?? '';
-      const feedbackWrong = this.questionData.feedbackWrong ?? '';
-      const hints = this.questionData.hints.join(', ') ?? ''; // تبدیل آرایه به رشته
-      const selectedDifficulty = this.selectedDifficulty ?? '';
-      const questionType= this.questionType?? '';
-      const selectedCategory= this.selectedCategory?? '';
-      const currentUsername= this.currentUsername?? '';
-
-
-      
-      debugger;
-      this.authservice.addQuestion(description, code,answer,feedbackCorrect,feedbackWrong,hints,questionType,selectedCategory,selectedDifficulty,currentUsername).subscribe({
-        next: (user) => {
-          if (user && user.token) {
-            console.log('add Question successful');
-          } else {
-            console.error('add Question successful, but no token received');
-          }
         },
-
+        error: (err) => console.error('Error updating question:', err)
       });
-     {
-      console.error('Question is missing or invalid.');
+    } else {
+      // اضافه کردن سؤال جدید
+      debugger;
+      this.authService.addQuestion(questionPayload).subscribe({
+        
+        next: () => {
+          //  console.log('Question added successfully');
+          this.message = 'Question added successfully';
+          this.router.navigate(['/teacher-add-question'])
+        },
+        error: (err) => console.error('Error adding question:', err)
+      });
+
+
     }
+    this.loadCurrentUser();
+  }
   
-}
-
-
   logout(): void {
-    this.authservice.logoutTeacher();  
+    this.authService.logoutTeacher();  
   }
 }

@@ -2,9 +2,9 @@
   <!-- Sidebar -->
   <div class="add-question-sidebar">
     <h2 class="sidebar-title">Menu</h2>
-    <button class="teacher-tutor-menu-item" routerLink="/teacher-tutor">Info</button>
-    <button class="teacher-tutor-menu-item active" routerLink="/teacher-add-question">Add Question</button>
-    <button class="teacher-tutor-menu-item" routerLink="/teacher-list-question">List Question</button>
+    <button class="teacher-tutor-menu-item" [routerLink]="['/teacher-tutor']">Info</button>
+    <button class="teacher-tutor-menu-item active" [routerLink]="['/teacher-add-question']">Add Question</button>
+    <button class="teacher-tutor-menu-item" [routerLink]="['/teacher-list-question']">List Question</button>
   </div>
 
   <!-- Main Content -->
@@ -147,7 +147,7 @@
       </div>
       
 
-      <button type="submit" class="add-question-submit-button">Add Question</button>
+      <button type="submit" class="add-question-submit-button">Submit Question</button>
     </form>
   </div>
 </div>

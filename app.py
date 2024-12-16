@@ -58,7 +58,7 @@ def save_user():
                 message = "user created successfully"
                 code = 200
                 res_data={"username":username, "token":access_token, "experienceLevel":data["experienceLevel"],"solvedTasks":data["solvedTasks"],
-                          "firstName": data["firstName"],  "lastName": data["lastNamel"] }
+                          "firstName": data["firstName"],  "lastName": data["lastName"] }
     except Exception as ex:
         message = f"{ex}"
         status = "fail"
@@ -282,12 +282,12 @@ def save_teacher():
     }), code
 
 
-@app.route('/getquestions', methods=['GET'])
-def get_questions():
+@app.route('/getquestions/<user>', methods=['GET'])
+def get_questions(user):
     try:
-        questions = list(db.questions.find({}, {"_id": 1, "description": 1, "code": 1, "answer": 1, 
+        questions = list(db.questions.find({"currentUsername": user}, {"_id": 1, "description": 1, "code": 1, "answer": 1, 
                                                 "feedbackCorrect": 1, "feedbackWrong": 1, "hints": 1, 
-                                                "questionType": 1, "selectedCategory": 1, "selectedDifficulty": 1}))
+                                                "questionType": 1, "selectedCategory": 1, "selectedDifficulty": 1, "currentUsername": 1}))
         # تبدیل ObjectId به رشته
         for question in questions:
             question['_id'] = str(question['_id'])
@@ -309,6 +309,35 @@ def delete_question(question_id):
             return jsonify({"status": "fail", "message": "Question not found"}), 404
     except Exception as ex:
         return jsonify({"status": "fail", "message": f"Error deleting question: {ex}"}), 500
+
+
+
+@app.route('/updatequestions/<question_id>', methods=['PUT'])
+def update_question(question_id):
+    print(question_id)
+    try:
+        # دریافت داده‌های به‌روزرسانی از درخواست
+        question_payload = request.json
+        print(question_payload)
+        # بررسی داده‌ها
+        if not question_payload:
+            return jsonify({"status": "fail", "message": "No data provided"}), 400
+
+        # اجرای به‌روزرسانی در دیتابیس
+        result = db.questions.update_one(
+            {"_id": ObjectId(question_id)},
+            {"$set": question_payload}
+        )
+
+        # بررسی نتیجه عملیات
+        if result.matched_count > 0:
+            return jsonify({"status": "successful", "message": "Question updated successfully"}), 200
+        else:
+            return jsonify({"status": "fail", "message": "Question not found"}), 404
+
+    except Exception as ex:
+        return jsonify({"status": "fail", "message": f"Error updating question: {ex}"}), 500
+
 
 
 if __name__=='__main__':

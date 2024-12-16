@@ -15,17 +15,30 @@ import { Router } from '@angular/router';
 export class TeacherListQuestionComponent implements OnInit {
   questionList: any[] = [];
 
+    // خواندن اطلاعات کاربر از localStorage
+    currentUser: string | null = localStorage.getItem('currentUser');
+    currentUserInfo: any = this.currentUser ? JSON.parse(this.currentUser) : null;
+    // متغیرها برای نگهداری نام کاربر
+    currentUsername: string = this.currentUserInfo?.username || '';
+
   constructor(private authservice: AuthService,
     private router: Router
 
   ) {}
 
   ngOnInit(): void {
+    this.loadCurrentUser();
     this.fetchQuestions();
   }
-
+  private loadCurrentUser(): void {
+    const currentUser = localStorage.getItem('currentUser');
+    this.currentUserInfo = currentUser ? JSON.parse(currentUser) : null;
+    this.currentUsername = this.currentUserInfo?.username || '';
+  }
   fetchQuestions(): void {
-    this.authservice.getQuestions().subscribe({
+    const currentUserInfo = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    const currentUsername = currentUserInfo.username || '';
+    this.authservice.getQuestions(currentUsername).subscribe({
         next: (response) => {
             if (response && response.data && Array.isArray(response.data)) {
                 this.questionList = response.data; 
@@ -39,6 +52,7 @@ export class TeacherListQuestionComponent implements OnInit {
         },
     });
 }
+
 
    removeQuestion(questionId: string): void {
     this.authservice.deleteQuestion(questionId).subscribe({
@@ -60,6 +74,7 @@ export class TeacherListQuestionComponent implements OnInit {
 editQuestion(question: any): void {
   debugger;
   localStorage.setItem('editQuestion', JSON.stringify(question));
+  debugger;
   this.router.navigate(['/teacher-add-question']);
 }
 

@@ -29,10 +29,22 @@ export class AuthService {
     return this.currentUserSubject.value ? this.currentUserSubject.value.token : null;
   }
 
-
-  getQuestions(): Observable<{status: string, data: any[], message: string}> {
-    return this.http.get<{status: string, data: any[], message: string}>(`${this.apiUrl}/getquestions`);
+  getQuestions(user: string): Observable<{status: string, data: any[], message: string}> {
+    return this.http.get<{status: string, data: any[], message: string}>(`${this.apiUrl}/getquestions/${user}`);
 }
+
+
+updateQuestion(id: string, questionPayload: any): Observable<any> {
+  debugger;
+  return this.http.put(`${this.apiUrl}/updatequestions/${id}`, questionPayload).pipe(
+    catchError((error) => {
+      console.error('Error updating question:', error);
+      return (error);  // Return the error observable to be handled by the subscriber
+    })
+  );
+}
+
+
 
 deleteQuestion(questionId: string): Observable<any> {
   return this.http.delete(`${this.apiUrl}/questions/${questionId}`);
@@ -65,30 +77,44 @@ deleteQuestion(questionId: string): Observable<any> {
 
 
 
+   /*I change this method addQuestion*/
+  addQuestion(
+    questionPayload: {
+      description: string;
+      code: string;
+      answer: string;
+      feedbackCorrect: string;
+      feedbackWrong: string;
+      hints: string[];
+      questionType: string;
+      selectedCategory: string;
+      selectedDifficulty: string;
+      currentUsername: string;
+    }
+  ) {
+    debugger;
+    return this.http.post<any>('http://localhost:5000/addQuestion', questionPayload)
+      .pipe(
+        map(response => {
+          if (response && response.data.token, response.data.answer) {
+            const answer = response.data.answer
+            const token  = response.data.token;
+            const currentUsername= response.data.currentUsername;
+           /*  localStorage.setItem('currentUser', JSON.stringify({ answer, token,questionPayload}));*/
+            this.currentUserSubject.next({ answer, token,currentUsername});
+            return {  token };
+          } else {
+            throw new Error('No token received');
+          }
+        }),
+        catchError(error => {
+          console.error('Signup error', error);
+          return throwError(()=> new Error(error));
+        })
+      );
+  }
 
- /*I add this method for add question*/
- addQuestion(description: string, code: string,answer: string, feedbackCorrect: string,feedbackWrong: string,hints: string, questionType: string, selectedCategory: string,selectedDifficulty: string,currentUsername:string  ) {
-  debugger;
-  return this.http.post<any>('http://localhost:5000/addQuestion', { description, code,answer,feedbackCorrect,feedbackWrong,hints,questionType,selectedCategory,selectedDifficulty,currentUsername })
-    .pipe(
-      map(response => {
-        if (response && response.data.token, response.data.answer) {
-          const answer = response.data.answer
-          const token  = response.data.token;
-          localStorage.setItem('currentUser', JSON.stringify({ answer, token,description, code,feedbackCorrect,feedbackWrong,hints ,questionType,selectedCategory,selectedDifficulty,currentUsername}));
-          this.currentUserSubject.next({ answer, token, description, code,feedbackCorrect,feedbackWrong,hints,questionType,selectedCategory,selectedDifficulty,currentUsername});
-          return {  token };
-        } else {
-          throw new Error('No token received');
-        }
-      }),
-      catchError(error => {
-        console.error('Signup error', error);
-        return throwError(()=> new Error(error));
-      })
-    );
-}
-// در auth.service.ts
+
 submitQuestion(
   firstname: string,
   lastname: string) {
