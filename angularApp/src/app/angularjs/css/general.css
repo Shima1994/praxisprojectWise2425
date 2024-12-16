@@ -1863,8 +1863,17 @@ body, html {
   .logout-btn:hover {
     background-color: #8df5a2; /* تغییر رنگ هنگام هاور */
   }
-  
-
+  /* add Currentuser part*/
+  .Currentuser {
+    position: absolute; /* موقعیت‌دهی مطلق */
+    top: 40px; /* فاصله از بالا */
+    right: 10px; /* فاصله از راست */
+    padding: 20px 20px;
+    background-color: #d1e3f0;
+    color: #333;
+    font-size: 16px;
+    
+  }
   
 /* add question part*/
 
