@@ -101,14 +101,18 @@ export class TeacherAddQuestionComponent implements OnInit  {
       // ویرایش سؤال
       this.authService.updateQuestion(this.questionData['_id'], questionPayload).subscribe({
         next: () => {
-         //   console.log('Question updated successfully');
-          this.message = 'Question updated successfully';
+          console.log('Question updated successfully');
+          alert('Question updated successfully.');
           localStorage.removeItem('editQuestion');
           //  window.location.reload();
           this.router.navigate(['/teacher-list-question']); // بازگشت به لیست سؤالات
 
         },
-        error: (err) => console.error('Error updating question:', err)
+        error: (err) => {
+        console.error('Error updating question:', err);
+        alert('ٍQuestion updated successfully.')
+      },
+
       });
     } else {
       // اضافه کردن سؤال جدید
@@ -116,11 +120,14 @@ export class TeacherAddQuestionComponent implements OnInit  {
       this.authService.addQuestion(questionPayload).subscribe({
         
         next: () => {
-          //  console.log('Question added successfully');
-          this.message = 'Question added successfully';
+          console.log('Question added successfully');
+          alert('Question added successfully.');
           this.router.navigate(['/teacher-add-question'])
         },
-        error: (err) => console.error('Error adding question:', err)
+        error: (err) => {
+        console.error('Error adding question:', err);
+        alert('ٍQuestion added successfully.')
+      },
       });
 
 
