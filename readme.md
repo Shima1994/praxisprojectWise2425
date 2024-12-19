@@ -1,4 +1,8 @@
-# AngularJS Setup
+
+
+
+
+# Angular Setup
 
 1. Install **NodeJS LTS (_Long Term Support_)** version:  
    [Download NodeJS](https://nodejs.org/en)

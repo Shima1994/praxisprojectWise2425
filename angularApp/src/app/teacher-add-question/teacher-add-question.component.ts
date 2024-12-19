@@ -40,9 +40,19 @@ export class TeacherAddQuestionComponent implements OnInit  {
     _id: null as string | null // شناسه سؤال در صورت ویرایش
   };
 
-  isLoading: boolean = false; // وضعیت بارگذاری (Loading)
-  message: string | null = null; // پیام موفقیت یا خطا
 
+  get answerLabel(): string {
+    switch (this.questionType) {
+      case 'Code':
+        return 'Answer Code';
+      case 'text':
+        return 'Answer Text';
+      default:
+        return 'Answer';
+    }
+    
+
+  }
   constructor(private authService: AuthService,
      private router:Router
   ) {}

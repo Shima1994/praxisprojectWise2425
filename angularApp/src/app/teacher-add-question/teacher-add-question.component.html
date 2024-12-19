@@ -86,22 +86,32 @@
           class="add-question-form-control"
           [(ngModel)]="questionData.description"
           name="description"
+          placeholder="Enter a short exercise description so that the student  undrestand the exercise better"
         ></textarea>
       </div>
 
       <div class="add-question-form-group">
         <label for="code">Code</label>
-        <textarea id="code" class="add-question-form-control"  type="text" [(ngModel)]="questionData.code" name="code"></textarea>
+        <textarea 
+        id="code"
+         class="add-question-form-control" 
+          type="text"
+           [(ngModel)]="questionData.code" 
+           name="code"
+           placeholder="Enter the code  here"
+        ></textarea>
       </div>
 
       <div class="add-question-form-group">
-        <label for="answer">Answer</label>
+        <label for="answer">{{ answerLabel }}</label>
         <textarea
           id="answer"
           type="text"
           class="add-question-form-control"
           [(ngModel)]="questionData.answer"
           name="answer"
+          
+          placeholder="Enter the answer of exercise" 
           ></textarea>
       </div>
 
@@ -112,29 +122,31 @@
           class="add-question-form-control"
           [(ngModel)]="questionData.feedbackCorrect"
           name="feedbackCorrect"
+          placeholder="Provide feedback for correct answer"
         ></textarea>
       </div>
 
       <div class="add-question-form-group">
-        <label for="feedback-wrong">Feedback for Wrong Answer</label>
+        <label for="feedback-wrong">Feedback for False Answer</label>
         <textarea
           id="feedback-wrong"
           class="add-question-form-control"
           [(ngModel)]="questionData.feedbackWrong"
           name="feedbackWrong"
+          placeholder="Provide feedback for False answer"
         ></textarea>
       </div>
 
       <div class="add-question-form-group">
         <label>Hint</label>
         <div *ngFor="let hint of questionData.hints; index as i" class="add-question-hint-item">
-          <input
+          <textarea
             type="text"
             class="add-question-form-control"
             [(ngModel)]="questionData.hints[i]"
             [name]="'hint' + i"
-            placeholder="Enter hint"
-          />
+            placeholder="Provide a hint for the exercise to help the student find the answer"
+            ></textarea>
         </div>
         <button
           type="button"
