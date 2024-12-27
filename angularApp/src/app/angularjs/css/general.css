@@ -1608,7 +1608,7 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #161616;
+    background-color: rgb(143, 157, 175);
   }
 
   .main-container {
@@ -1683,7 +1683,7 @@ body, html {
 
 /* Teacher Part singup*/
 
-
+  
 .teacher-signup-main-container {
     display: flex;
     justify-content: center;
@@ -1883,7 +1883,7 @@ body, html {
     width: 100%;
     height: 100vh;
     background-color: #e6f7ff;
-    margin-top: 200px;
+    margin: top 0;
 }
 
 /* Sidebar Styling */
@@ -2051,5 +2051,4 @@ body, html {
 .add-question-category-button.active {
     background-color:  #8df5a2; /* رنگ پس‌زمینه هنگام انتخاب */
 }
-
 

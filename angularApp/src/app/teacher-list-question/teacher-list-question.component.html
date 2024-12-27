@@ -14,7 +14,7 @@
     <h1 class="add-question-page-title">List Question Page</h1>
 
           <!-- Table Section -->
-          <table class="list-question-table">
+          <table class="list-question-table" >
             <thead>
               <tr>
                 <th>Question</th>
@@ -52,15 +52,18 @@
 <style>
 
 
+
+
 .list-question-table {
-  width: 150%; /* جدول تمام عرض صفحه شود */
-  margin-top: 20px; /* فاصله بیشتر از بالا */
-  border-collapse: collapse; /* خطوط مرزی جدول به هم نزدیک شوند */
-  font-size: 16px; /* فونت بزرگ‌تر */
+  width: 110%; /* عرض جدول را محدود کنید */
+  margin-top: 20px; /* فاصله از بالا */
+  border-collapse: collapse; /* مرزهای جدول */
+  font-size: 16px;
 }
+
 .list-question-table th, .list-question-table td {
   border: 1px solid #ddd;
-  padding: 10px; /* فضای داخلی بیشتر */
+  padding: 10px;
   text-align: center;
 }
 
@@ -71,19 +74,10 @@
 }
 
 .edit-btn, .remove-btn {
-  padding: 8px 15px; /* اندازه دکمه‌ها بزرگ‌تر شود */
-  font-size: 14px; /* فونت دکمه‌ها بزرگ‌تر شود */
+  padding: 8px 15px;
+  font-size: 14px;
 }
 
-
-.edit-btn {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease; /* افکت تغییر رنگ */
-}
 
 .edit-btn:hover {
   background-color: #45a049; /* رنگ روشن‌تر هنگام هاور */
