@@ -6,7 +6,11 @@ import { AuthService } from '../services/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';  // add this import
-
+interface Node {
+  content: string;
+  type: string;
+  position: { x: number; y: number };
+}
 
 @Component({
   selector: 'app-teacher-add-question',
@@ -39,7 +43,48 @@ export class TeacherAddQuestionComponent implements OnInit  {
     questionType: 'Code',
     _id: null as string | null // شناسه سؤال در صورت ویرایش
   };
+  chartData = {
+    nodes: [] as Node[], // آرایه nodes از نوع Node
+  };
+  newNodeContent = '';
+  newNodeType = 'process'; // Default type
 
+  addNode() {
+    if (this.newNodeContent.trim() === '') {
+      alert('Please enter node content!');
+      return;
+    }
+
+    const newNode: Node = {
+      content: this.newNodeContent,
+      type: this.newNodeType,
+      position: { x: 50, y: 50 }, // Default position
+    };
+
+    this.chartData.nodes.push(newNode);
+    this.newNodeContent = ''; // Reset content
+    this.newNodeType = 'process'; // Reset to default type
+  }
+
+  removeNode(node: Node) {
+    this.chartData.nodes = this.chartData.nodes.filter((n) => n !== node);
+  }
+
+  onNodeDragStart(event: DragEvent, node: Node) {
+    const dataTransfer = event.dataTransfer;
+    if (dataTransfer) {
+      dataTransfer.setData('text', JSON.stringify(node));
+    }
+  }
+  
+
+  onNodeDragEnd(event: DragEvent, node: Node) {
+    const target = event.target as HTMLElement;
+    if (target) {
+      node.position.x = event.clientX - target.offsetWidth / 2;
+      node.position.y = event.clientY - target.offsetHeight / 2;
+    }
+  }
 
   get answerLabel(): string {
     switch (this.questionType) {
