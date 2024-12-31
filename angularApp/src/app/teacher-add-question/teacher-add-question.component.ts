@@ -41,29 +41,31 @@ export class TeacherAddQuestionComponent implements OnInit  {
     selectedDifficulty: 'Expert',
     selectedCategory: 'Variable',
     questionType: 'Code',
+    newNodeContent : '',
+    newNodeType : 'process',
     _id: null as string | null // شناسه سؤال در صورت ویرایش
   };
   chartData = {
     nodes: [] as Node[], // آرایه nodes از نوع Node
   };
-  newNodeContent = '';
-  newNodeType = 'process'; // Default type
+
 
   addNode() {
-    if (this.newNodeContent.trim() === '') {
+    if (!this.questionData.newNodeContent) {
       alert('Please enter node content!');
       return;
     }
 
+    
     const newNode: Node = {
-      content: this.newNodeContent,
-      type: this.newNodeType,
+      content: this.questionData.newNodeContent,
+      type: this.questionData.newNodeType,
       position: { x: 50, y: 50 }, // Default position
     };
 
     this.chartData.nodes.push(newNode);
-    this.newNodeContent = ''; // Reset content
-    this.newNodeType = 'process'; // Reset to default type
+    this.questionData.newNodeContent = ''; // Reset content
+    this.questionData.newNodeType = 'process'; // Reset to default type
   }
 
   removeNode(node: Node) {
@@ -80,11 +82,26 @@ export class TeacherAddQuestionComponent implements OnInit  {
 
   onNodeDragEnd(event: DragEvent, node: Node) {
     const target = event.target as HTMLElement;
-    if (target) {
-      node.position.x = event.clientX - target.offsetWidth / 2;
-      node.position.y = event.clientY - target.offsetHeight / 2;
+    const container = document.getElementById('flowchartCanvas');
+  
+    if (target && container) {
+      const containerRect = container.getBoundingClientRect();
+  
+      // محاسبه مختصات جدید با محدود کردن به محدوده مستطیل
+      const newX = Math.max(
+        0,
+        Math.min(event.clientX - containerRect.left - target.offsetWidth / 2, containerRect.width - target.offsetWidth)
+      );
+      const newY = Math.max(
+        0,
+        Math.min(event.clientY - containerRect.top - target.offsetHeight / 2, containerRect.height - target.offsetHeight)
+      );
+  
+      node.position.x = newX;
+      node.position.y = newY;
     }
   }
+  
 
   get answerLabel(): string {
     switch (this.questionType) {
@@ -137,7 +154,8 @@ export class TeacherAddQuestionComponent implements OnInit  {
     }
   }
 
-  onSubmitQuestion(): void {
+  onSubmitQuestion(event: Event): void {
+    event.preventDefault();
     debugger;
     const questionPayload = {
       description: this.questionData.description || '',

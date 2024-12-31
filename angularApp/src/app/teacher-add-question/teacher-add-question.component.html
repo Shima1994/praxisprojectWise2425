@@ -76,7 +76,7 @@
 
 
     <!-- Form Content -->
-    <form  *ngIf="questionType !== 'chart'"  class="add-question-form" (submit)="onSubmitQuestion()">
+    <form   class="add-question-form"  (ngSubmit)="onSubmitQuestion($event)" >
  
 
       <div class="add-question-form-group">
@@ -103,7 +103,43 @@
         ></textarea>
       </div>
 
-      <div class="add-question-form-group">
+
+        <!-- Chart Editor -->
+        <div class="chart-editor" *ngIf="questionType === 'chart'">
+          <div class="node-form">
+            <label for="node-content">Enter Node Content:</label>
+            <input id="node-content" 
+                   type="text" 
+                   name="newNodeContent"
+                   [(ngModel)]="questionData.newNodeContent" 
+                   placeholder="e.g., if i == 3" />
+
+            <label for="node-type">Select Node Type:</label>
+            <select id="node-type" [(ngModel)]="questionData.newNodeType"   name="newNodeType">
+              <option value="decision">Condition (Diamond)</option>
+              <option value="process">Process (Rectangle)</option>
+              <option value="start">Start (Circle)</option>
+              <option value="end">End (Circle)</option>
+            </select>
+            <button type="button" (click)="addNode()" [disabled]="!questionData.newNodeContent">Add Node</button>
+          </div>
+
+          <div class="flowchart-canvas" id="flowchartCanvas">
+            <div *ngFor="let node of chartData.nodes"
+                  name="flowchartCanvas"
+                 [ngClass]="'node ' + node.type"
+                 [style.top.px]="node.position.y"
+                 [style.left.px]="node.position.x"
+                 draggable="true"
+                 (dragstart)="onNodeDragStart($event, node)"
+                 (dragend)="onNodeDragEnd($event, node)">
+              {{ node.content }}
+              <button type="button" class="delete-btn" (click)="removeNode(node)">X</button>
+            </div>
+          </div>
+        </div>
+
+      <div class="add-question-form-group"   *ngIf="questionType !== 'chart'">
         <label for="answer">{{ answerLabel }}</label>
         <textarea
           id="answer"
@@ -163,47 +199,14 @@
       <button type="submit" class="add-question-submit-button">Submit Question</button>
     </form>
 
-    <div class="chart-editor">
-      <!-- Form to Add Nodes -->
-      <div class="node-form">
-        <label for="node-content">Enter Node Content:</label>
-        <input
-          id="node-content"
-          type="text"
-          [(ngModel)]="newNodeContent"
-          placeholder="e.g., if i == 3"
-        />
-        <label for="node-type">Select Node Type:</label>
-        <select id="node-type" [(ngModel)]="newNodeType">
-          <option value="decision">Condition (Diamond)</option>
-          <option value="process">Process (Rectangle)</option>
-          <option value="start">Start (Circle)</option>
-          <option value="end">End (Circle)</option>
-        </select>
-        <button (click)="addNode()">Add Node</button>
-      </div>
-    
-      <!-- Flowchart Display -->
-      <div class="flowchart-canvas" id="flowchartCanvas">
-        <div
-          *ngFor="let node of chartData.nodes"
-          [ngClass]="'node ' + node.type"
-          [style.top.px]="node.position.y"
-          [style.left.px]="node.position.x"
-          draggable="true"
-          (dragstart)="onNodeDragStart($event, node)"
-          (dragend)="onNodeDragEnd($event, node)"
-        >
-          {{ node.content }}
-          <button type="button" class="delete-btn" (click)="removeNode(node)">X</button>
-        </div>
-      </div>
-    </div>
-    
 
 
   </div>
 </div>
+
+
+
+
 </body>
 
 
@@ -228,6 +231,7 @@
     height: 800px;
     margin-top: 20px;
     background-color: #f9f9f9;
+    overflow: hidden; /* جلوگیری از خروج محتوا */
   }
   
   .node {
@@ -235,7 +239,7 @@
     padding: 10px;
     border: 1px solid #000;
     text-align: center;
-    cursor: move;
+    cursor: grab;
   }
   
   .node.process {
@@ -255,7 +259,9 @@
     line-height: 60px; /* تنظیم ارتفاع متن داخل لوزی */
     border-radius: 10px; /* گرد کردن گوشه‌ها */
   }
-  
+  .node:active {
+  cursor: grabbing;
+   }
   .node.start,
   .node.end {
     width: 50px;
