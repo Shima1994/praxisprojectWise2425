@@ -10,7 +10,7 @@ interface Node {
   content: string;
   type: string;
   position: { x: number; y: number };
-}
+}  
 
 @Component({
   selector: 'app-teacher-add-question',
@@ -47,9 +47,46 @@ export class TeacherAddQuestionComponent implements OnInit  {
   };
   chartData = {
     nodes: [] as Node[], // آرایه nodes از نوع Node
+    connections: [] as { from: Node, to: Node }[], // ذخیره ارتباطات بین گره‌ها
+
   };
 
+  selectedNode: Node | null = null;
 
+  onNodeClick(node: Node): void {
+    if (this.selectedNode) {
+      // اضافه کردن اتصال
+      this.chartData.connections.push({ from: this.selectedNode, to: node });
+      this.selectedNode = null; // بازنشانی
+      this.drawConnections(); // رسم خطوط
+    } else {
+      this.selectedNode = node;
+    }
+  }
+  
+  drawConnections(): void {
+    const canvas = document.querySelector('.connections') as SVGElement;
+    if (!canvas) return;
+  
+    canvas.innerHTML = ''; // پاک کردن خطوط قبلی
+  
+    this.chartData.connections.forEach((connection) => {
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  
+      // مختصات شروع و پایان خطوط
+      line.setAttribute('x1', `${connection.from.position.x + 50}`); // تنظیم عرض گره (به مرکز نزدیک شوید)
+      line.setAttribute('y1', `${connection.from.position.y + 25}`); // تنظیم ارتفاع گره
+      line.setAttribute('x2', `${connection.to.position.x + 50}`);
+      line.setAttribute('y2', `${connection.to.position.y + 25}`);
+  
+      // استایل خط
+      line.setAttribute('stroke', 'black');
+      line.setAttribute('stroke-width', '2');
+      canvas.appendChild(line);
+    });
+  }
+  
+  
   addNode() {
     if (!this.questionData.newNodeContent) {
       alert('Please enter node content!');
@@ -167,7 +204,11 @@ export class TeacherAddQuestionComponent implements OnInit  {
       selectedDifficulty: this.selectedDifficulty || '',
       questionType: this.questionType || '',
       selectedCategory: this.selectedCategory || '',
-      currentUsername: this.currentUsername || ''
+      currentUsername: this.currentUsername || '',
+      chartData: {
+        nodes: this.chartData.nodes,
+        connections: this.chartData.connections
+      },
     };
     
     if (this.questionData['_id']) {

@@ -84,6 +84,7 @@ def save_question():
         selectedCategory = data['selectedCategory'] 
         selectedDifficulty= data['selectedDifficulty'] 
         currentUsername= data['currentUsername']
+        chartData = data['chartData'] 
         data['UserCreated'] = datetime.now()
         data['description'] = description  
         data['code'] = code    
@@ -94,6 +95,7 @@ def save_question():
         data['selectedCategory'] = selectedCategory  
         data['selectedDifficulty'] = selectedDifficulty 
         data['currentUsername'] =currentUsername
+        data['chartData'] = chartData
         access_token=create_access_token(identity=answer)
         res = db.questions.insert_one(data)
         if res.acknowledged:
@@ -104,7 +106,7 @@ def save_question():
                           "description": data["description"],  "code": data["code"],"feedbackCorrect": data["feedbackCorrect"] 
                           ,"feedbackWrong": data["feedbackWrong"],  "hints": data["hints"] ,
                           "questionType": data["questionType"],"selectedCategory": data["selectedCategory"],"selectedDifficulty": data["selectedDifficulty"],
-                            "currentUsername": data["currentUsername"]}
+                            "currentUsername": data["currentUsername"],"chartData": data["chartData"]}
     except Exception as ex:
         message = f"{ex}"
         status = "fail"

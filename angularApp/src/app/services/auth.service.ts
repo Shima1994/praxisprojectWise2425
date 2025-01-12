@@ -90,6 +90,10 @@ deleteQuestion(questionId: string): Observable<any> {
       selectedCategory: string;
       selectedDifficulty: string;
       currentUsername: string;
+      chartData: {
+        nodes: { content: string; type: string; position: { x: number; y: number } }[];
+        connections: { from: { content: string }; to: { content: string } }[];
+      };
     }
   ) {
     debugger;

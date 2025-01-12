@@ -125,6 +125,7 @@
           </div>
 
           <div class="flowchart-canvas" id="flowchartCanvas">
+            <svg class="connections" xmlns="http://www.w3.org/2000/svg"></svg>
             <div *ngFor="let node of chartData.nodes"
                   name="flowchartCanvas"
                  [ngClass]="'node ' + node.type"
@@ -132,7 +133,8 @@
                  [style.left.px]="node.position.x"
                  draggable="true"
                  (dragstart)="onNodeDragStart($event, node)"
-                 (dragend)="onNodeDragEnd($event, node)">
+                 (dragend)="onNodeDragEnd($event, node)"
+                 (click)="onNodeClick(node)">
               {{ node.content }}
               <button type="button" class="delete-btn" (click)="removeNode(node)">X</button>
             </div>
@@ -280,5 +282,16 @@
     cursor: pointer;
   }
   
-  
+  .connections {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* جلوگیری از وقفه در تعاملات گره‌ها */
+}
+
+.connections line {
+  stroke: black;
+  stroke-width: 2;
+}
+
   </style>
