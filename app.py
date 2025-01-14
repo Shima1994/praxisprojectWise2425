@@ -289,7 +289,7 @@ def get_questions(user):
     try:
         questions = list(db.questions.find({"currentUsername": user}, {"_id": 1, "description": 1, "code": 1, "answer": 1, 
                                                 "feedbackCorrect": 1, "feedbackWrong": 1, "hints": 1, 
-                                                "questionType": 1, "selectedCategory": 1, "selectedDifficulty": 1, "currentUsername": 1}))
+                                                "questionType": 1, "selectedCategory": 1, "selectedDifficulty": 1, "currentUsername": 1,"chartData": 1 }))
         # تبدیل ObjectId به رشته
         for question in questions:
             question['_id'] = str(question['_id'])

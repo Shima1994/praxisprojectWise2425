@@ -37,13 +37,18 @@ export class TeacherAddQuestionComponent implements OnInit  {
     answer: '',
     feedbackCorrect: '',
     feedbackWrong: '',
+
     hints: [''],
     selectedDifficulty: 'Expert',
     selectedCategory: 'Variable',
     questionType: 'Code',
     newNodeContent : '',
     newNodeType : 'process',
-    _id: null as string | null // شناسه سؤال در صورت ویرایش
+    _id: null as string | null, // شناسه سؤال در صورت ویرایش
+    chartData: {
+      nodes: [] as Node[], // آرایه nodes از نوع Node
+      connections: [] as { from: Node; to: Node }[], // ذخیره ارتباطات بین گره‌ها
+    }
   };
   chartData = {
     nodes: [] as Node[], // آرایه nodes از نوع Node
@@ -175,6 +180,8 @@ export class TeacherAddQuestionComponent implements OnInit  {
       this.selectedDifficulty = this.questionData.selectedDifficulty || 'Expert';
       this.selectedCategory = this.questionData.selectedCategory || 'Variable';
       this.questionType = this.questionData.questionType || 'Code';
+      this.chartData = this.questionData.chartData || { nodes: [], connections: [] };
+      this.drawConnections(); // رسم مجدد خطوط
     }
   }
   selectDifficulty(level: string): void {
