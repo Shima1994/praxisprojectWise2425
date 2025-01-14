@@ -34,10 +34,11 @@ export class TeacherAddQuestionComponent implements OnInit  {
   questionData = {
     description: '',
     code: '',
+    codePart1: '', // اضافه کردن Code Part 1
+    codePart2: '', // اضافه کردن Code Part 2
     answer: '',
     feedbackCorrect: '',
     feedbackWrong: '',
-
     hints: [''],
     selectedDifficulty: 'Expert',
     selectedCategory: 'Variable',
@@ -69,28 +70,54 @@ export class TeacherAddQuestionComponent implements OnInit  {
     }
   }
   
-  drawConnections(): void {
-    const canvas = document.querySelector('.connections') as SVGElement;
-    if (!canvas) return;
+// drawConnections(): void {
+//   const canvas = document.querySelector('.connections') as SVGElement;
+//    if (!canvas) return;
   
-    canvas.innerHTML = ''; // پاک کردن خطوط قبلی
+    // پاک کردن خطوط قبلی
+    //canvas.innerHTML = ''; 
   
-    this.chartData.connections.forEach((connection) => {
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-  
-      // مختصات شروع و پایان خطوط
-      line.setAttribute('x1', `${connection.from.position.x + 50}`); // تنظیم عرض گره (به مرکز نزدیک شوید)
-      line.setAttribute('y1', `${connection.from.position.y + 25}`); // تنظیم ارتفاع گره
-      line.setAttribute('x2', `${connection.to.position.x + 50}`);
-      line.setAttribute('y2', `${connection.to.position.y + 25}`);
-  
-      // استایل خط
-      line.setAttribute('stroke', 'black');
-      line.setAttribute('stroke-width', '2');
-      canvas.appendChild(line);
-    });
-  }
-  
+    // ایجاد خطوط جدید با استفاده از innerHTML
+    //this.chartData.connections.forEach((connection) => {
+      //canvas.innerHTML += `
+      //  <line 
+      //    x1="${connection.from.position.x + 50}" 
+      //    y1="${connection.from.position.y + 25}" 
+     //     x2="${connection.to.position.x + 50}" 
+     //     y2="${connection.to.position.y + 25}" 
+       //   stroke="black" 
+     //     stroke-width="2">
+      //  </line>`;
+   // });
+   
+ // }
+ drawConnections(): void {
+  // گرفتن عنصر SVG که خطوط در آن رسم می‌شود
+  const canvas = document.querySelector('.connections') as SVGElement;
+  if (!canvas) return;
+
+  // پاک کردن خطوط قبلی
+  canvas.innerHTML = '';
+
+  // اضافه کردن خطوط جدید
+  this.chartData.connections.forEach((connection) => {
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+
+    // تنظیم مختصات گره‌های اتصال
+    line.setAttribute('x1', `${connection.from.position.x + 50}`); // گره مبدا
+    line.setAttribute('y1', `${connection.from.position.y + 25}`);
+    line.setAttribute('x2', `${connection.to.position.x + 50}`); // گره مقصد
+    line.setAttribute('y2', `${connection.to.position.y + 25}`);
+
+    // استایل خط
+    line.setAttribute('stroke', 'black'); // رنگ سیاه
+    line.setAttribute('stroke-width', '2'); // ضخامت خط
+
+    // اضافه کردن خط به SVG
+    canvas.appendChild(line);
+  });
+}
+
   
   addNode() {
     if (!this.questionData.newNodeContent) {
@@ -165,6 +192,7 @@ export class TeacherAddQuestionComponent implements OnInit  {
   ngOnInit(): void {
     this.loadCurrentUser();
     this.loadEditQuestionData();
+    this.drawConnections(); 
 
   }
   
@@ -204,6 +232,8 @@ export class TeacherAddQuestionComponent implements OnInit  {
     const questionPayload = {
       description: this.questionData.description || '',
       code: this.questionData.code || '',
+      codePart1: this.questionData.codePart1 || '', // اضافه کردن Code Part 1
+      codePart2: this.questionData.codePart2 || '', // اضافه کردن Code Part 2
       answer: this.questionData.answer || '',
       feedbackCorrect: this.questionData.feedbackCorrect || '',
       feedbackWrong: this.questionData.feedbackWrong || '',

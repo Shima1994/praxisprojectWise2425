@@ -82,6 +82,8 @@ deleteQuestion(questionId: string): Observable<any> {
     questionPayload: {
       description: string;
       code: string;
+      codePart1: string;
+      codePart2: string;
       answer: string;
       feedbackCorrect: string;
       feedbackWrong: string;

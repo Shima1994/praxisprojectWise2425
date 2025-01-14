@@ -67,7 +67,7 @@
         <option value="Code">Code</option>
         <option value="text">Text</option>
         <option value="chart">Chart</option>
-         <option value="Part Code">Part Code</option>
+         <option value="Gap">Gap</option>
       </select>
     </div>
 </div>
@@ -91,7 +91,7 @@
         ></textarea>
       </div>
 
-      <div class="add-question-form-group">
+      <div class="add-question-form-group"  *ngIf="questionType !== 'Gap'">
         <label for="code">Code</label>
         <textarea 
         id="code"
@@ -125,7 +125,9 @@
           </div>
 
           <div class="flowchart-canvas" id="flowchartCanvas">
+           <!-- <svg class="connections"></svg>-->
             <svg class="connections" xmlns="http://www.w3.org/2000/svg"></svg>
+
             <div *ngFor="let node of chartData.nodes"
                   name="flowchartCanvas"
                  [ngClass]="'node ' + node.type"
@@ -141,8 +143,48 @@
           </div>
         </div>
 
-      <div class="add-question-form-group"   *ngIf="questionType !== 'chart'">
-        <label for="answer">{{ answerLabel }}</label>
+
+      <!-- بخش مربوط به Gap -->
+<div *ngIf="questionType === 'Gap'" class="gap-editor">
+  <div class="add-question-form-group">
+    <label for="code-part1">Code Part 1</label>
+    <textarea
+      id="code-part1"
+      type="text"
+      class="add-question-form-control"
+      [(ngModel)]="questionData.codePart1"
+      name="codePart1"
+      placeholder="Enter the first part of the code"
+    ></textarea>
+  </div>
+
+  <div class="add-question-form-group">
+    <label for="answer-gap">Answer (Gap)</label>
+    <input
+      id="answer-gap"
+      type="text"
+      class="add-question-form-control"
+      [(ngModel)]="questionData.answer"
+      name="answerGap"
+      placeholder="Enter the gap answer"
+    />
+  </div>
+
+  <div class="add-question-form-group">
+    <label for="code-part2">Code Part 2</label>
+    <textarea
+      id="code-part2"
+      type="text"
+      class="add-question-form-control"
+      [(ngModel)]="questionData.codePart2"
+      name="codePart2"
+      placeholder="Enter the second part of the code"
+    ></textarea>
+  </div>
+</div>
+
+<div class="add-question-form-group" *ngIf="questionType !== 'chart' && questionType !== 'Gap'">
+  <label for="answer">{{ answerLabel }}</label>
         <textarea
           id="answer"
           type="text"
@@ -283,15 +325,29 @@
   }
   
   .connections {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  pointer-events: none; /* جلوگیری از وقفه در تعاملات گره‌ها */
+  position: absolute; /* قرار گرفتن در لایه جدا */
+  top: 0;
+  left: 0;
+  width: 100%; /* کل عرض کانتینر */
+  height: 100%; /* کل ارتفاع کانتینر */
+  z-index: 0; /* قرار گرفتن زیر گره‌ها */
+  pointer-events: none; /* جلوگیری از اختلال در کلیک گره‌ها */
 }
 
 .connections line {
   stroke: black;
-  stroke-width: 2;
+  stroke-width: 5;
+}
+
+
+.gap-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.gap-editor .add-question-form-group {
+  margin-bottom: 10px;
 }
 
   </style>

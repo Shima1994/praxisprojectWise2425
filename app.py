@@ -76,7 +76,8 @@ def save_question():
         data = request.get_json()
         answer=data['answer']  
         description = data['description'] 
-        code = data['code']   
+        codePart1 = data['codePart1']   
+        codePart2 = data['codePart2']  
         feedbackCorrect = data['feedbackCorrect'] 
         feedbackWrong = data['feedbackWrong'] 
         hints = data['hints'] 
@@ -87,7 +88,8 @@ def save_question():
         chartData = data['chartData'] 
         data['UserCreated'] = datetime.now()
         data['description'] = description  
-        data['code'] = code    
+        data['codePart1'] = codePart1    
+        data['codePart2'] = codePart2   
         data['feedbackCorrect'] = feedbackCorrect  
         data['feedbackWrong'] = feedbackWrong  
         data['hints'] = hints  
@@ -103,7 +105,8 @@ def save_question():
                 message = "user created successfully"
                 code = 200
                 res_data={"answer":answer, "token":access_token, 
-                          "description": data["description"],  "code": data["code"],"feedbackCorrect": data["feedbackCorrect"] 
+                          "description": data["description"],  "code": data["code"],"codePart1": data["codePart1"],"codePart2": data["codePart2"],
+                          "feedbackCorrect": data["feedbackCorrect"] 
                           ,"feedbackWrong": data["feedbackWrong"],  "hints": data["hints"] ,
                           "questionType": data["questionType"],"selectedCategory": data["selectedCategory"],"selectedDifficulty": data["selectedDifficulty"],
                             "currentUsername": data["currentUsername"],"chartData": data["chartData"]}
@@ -287,7 +290,7 @@ def save_teacher():
 @app.route('/getquestions/<user>', methods=['GET'])
 def get_questions(user):
     try:
-        questions = list(db.questions.find({"currentUsername": user}, {"_id": 1, "description": 1, "code": 1, "answer": 1, 
+        questions = list(db.questions.find({"currentUsername": user}, {"_id": 1, "description": 1, "code": 1, "codePart1": 1,"codePart2": 1,"answer": 1, 
                                                 "feedbackCorrect": 1, "feedbackWrong": 1, "hints": 1, 
                                                 "questionType": 1, "selectedCategory": 1, "selectedDifficulty": 1, "currentUsername": 1,"chartData": 1 }))
         # تبدیل ObjectId به رشته
