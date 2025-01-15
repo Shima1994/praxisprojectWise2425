@@ -1683,6 +1683,29 @@ body, html {
 
 /* Teacher Part singup*/
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Body container styling for the entire page */
+  .teacher-body-container {
+    width: 100%;
+    min-height: 100vh; /* صفحه حداقل ارتفاع صفحه نمایش */
+    display: flex;
+    flex-direction: column; /* این ویژگی باعث می‌شود که محتوا از بالا به پایین چینش شود */
+    justify-content: flex-start; /* محتوای اصلی از بالا چیده می‌شود */
+    background-color: #f9f9f9; /* رنگ پس‌زمینه */
+    color: #333; /* رنگ متن */
+    font-size: 16px;
+    line-height: 1.6; /* فاصله خطوط */
+    padding: 0; /* برداشتن padding اضافی */
+    overflow-x: hidden; /* جلوگیری از ایجاد اسکرول افقی */
+    margin: 0; /* حذف هرگونه فاصله بیرونی اضافی */
+  }
+
   
 .teacher-signup-main-container {
     display: flex;
@@ -2052,3 +2075,45 @@ body, html {
     background-color:  #8df5a2; /* رنگ پس‌زمینه هنگام انتخاب */
 }
 
+.list-question-table {
+    width: 110%; /* عرض جدول را محدود کنید */
+    margin-top: 20px; /* فاصله از بالا */
+    border-collapse: collapse; /* مرزهای جدول */
+    font-size: 16px;
+  }
+  
+  .list-question-table th, .list-question-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .list-question-table th {
+    background-color: #37a9f5;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .edit-btn, .remove-btn {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+  
+  
+  .edit-btn:hover {
+    background-color: #45a049; /* رنگ روشن‌تر هنگام هاور */
+  }
+  
+  
+  .remove-btn {
+    background-color: #FF5733;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* افکت تغییر رنگ */
+  }
+  
+  .remove-btn:hover {
+    background-color: #e74c3c; /* رنگ روشن‌تر هنگام هاور */
+  }
