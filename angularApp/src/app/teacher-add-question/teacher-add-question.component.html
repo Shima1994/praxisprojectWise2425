@@ -67,7 +67,7 @@
         <option value="Code">Code</option>
         <option value="text">Text</option>
         <option value="chart">Chart</option>
-         <option value="Part Code">Part Code</option>
+         <option value="Gap">Gap</option>
       </select>
     </div>
 </div>
@@ -76,7 +76,7 @@
 
 
     <!-- Form Content -->
-    <form   class="add-question-form" (submit)="onSubmitQuestion()">
+    <form   class="add-question-form"  (ngSubmit)="onSubmitQuestion($event)" >
  
 
       <div class="add-question-form-group">
@@ -91,7 +91,7 @@
         ></textarea>
       </div>
 
-      <div class="add-question-form-group">
+      <div class="add-question-form-group"  *ngIf="questionType !== 'Gap'">
         <label for="code">Code</label>
         <textarea 
         id="code"
@@ -103,8 +103,88 @@
         ></textarea>
       </div>
 
-      <div class="add-question-form-group">
-        <label for="answer">{{ answerLabel }}</label>
+
+        <!-- Chart Editor -->
+        <div class="chart-editor" *ngIf="questionType === 'chart'">
+          <div class="node-form">
+            <label for="node-content">Enter Node Content:</label>
+            <input id="node-content" 
+                   type="text" 
+                   name="newNodeContent"
+                   [(ngModel)]="questionData.newNodeContent" 
+                   placeholder="e.g., if i == 3" />
+
+            <label for="node-type">Select Node Type:</label>
+            <select id="node-type" [(ngModel)]="questionData.newNodeType"   name="newNodeType">
+              <option value="decision">Condition (Diamond)</option>
+              <option value="process">Process (Rectangle)</option>
+              <option value="start">Start (Circle)</option>
+              <option value="end">End (Circle)</option>
+            </select>
+            <button type="button" (click)="addNode()" [disabled]="!questionData.newNodeContent">Add Node</button>
+          </div>
+
+          <div class="flowchart-canvas" id="flowchartCanvas">
+           <!-- <svg class="connections"></svg>-->
+            <svg class="connections" xmlns="http://www.w3.org/2000/svg"></svg>
+
+            <div *ngFor="let node of chartData.nodes"
+                  name="flowchartCanvas"
+                 [ngClass]="'node ' + node.type"
+                 [style.top.px]="node.position.y"
+                 [style.left.px]="node.position.x"
+                 draggable="true"
+                 (dragstart)="onNodeDragStart($event, node)"
+                 (dragend)="onNodeDragEnd($event, node)"
+                 (click)="onNodeClick(node)">
+              {{ node.content }}
+              <button type="button" class="delete-btn" (click)="removeNode(node)">X</button>
+            </div>
+          </div>
+        </div>
+
+
+      <!-- بخش مربوط به Gap -->
+<div *ngIf="questionType === 'Gap'" class="gap-editor">
+  <div class="add-question-form-group">
+    <label for="code-part1">Code Part 1</label>
+    <textarea
+      id="code-part1"
+      type="text"
+      class="add-question-form-control"
+      [(ngModel)]="questionData.codePart1"
+      name="codePart1"
+      placeholder="Enter the first part of the code"
+    ></textarea>
+  </div>
+
+  <div class="add-question-form-group">
+    <label for="answer-gap">Answer (Gap)</label>
+    <input
+      id="answer-gap"
+      type="text"
+      class="add-question-form-control"
+      [(ngModel)]="questionData.answer"
+      name="answerGap"
+      placeholder="Enter the gap answer"
+    />
+  </div>
+
+  <div class="add-question-form-group">
+    <label for="code-part2">Code Part 2</label>
+    <textarea
+      id="code-part2"
+      type="text"
+      class="add-question-form-control"
+      [(ngModel)]="questionData.codePart2"
+      name="codePart2"
+      placeholder="Enter the second part of the code"
+    ></textarea>
+  </div>
+</div>
+
+<div class="add-question-form-group" *ngIf="questionType !== 'chart' && questionType !== 'Gap'">
+  <label for="answer">{{ answerLabel }}</label>
         <textarea
           id="answer"
           type="text"
@@ -162,6 +242,112 @@
 
       <button type="submit" class="add-question-submit-button">Submit Question</button>
     </form>
+
+
+
   </div>
 </div>
+
+
+
+
 </body>
+
+
+
+<style>
+  .chart-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .node-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .flowchart-canvas {
+    position: relative;
+    border: 1px solid #ccc;
+    width: 600px;
+    height: 800px;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    overflow: hidden; /* جلوگیری از خروج محتوا */
+  }
+  
+  .node {
+    position: absolute;
+    padding: 10px;
+    border: 1px solid #000;
+    text-align: center;
+    cursor: grab;
+  }
+  
+  .node.process {
+    width: 100px;
+    height: 50px;
+    background-color: #cce5ff;
+  }
+  
+  .node.decision {
+    width: 100px;
+    height: 50px;
+    background-color: lightgreen;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* ایجاد لوزی */
+    width: 60px; /* اندازه لوزی */
+    height: 60px; /* اندازه لوزی */
+    text-align: center;
+    line-height: 60px; /* تنظیم ارتفاع متن داخل لوزی */
+    border-radius: 10px; /* گرد کردن گوشه‌ها */
+  }
+  .node:active {
+  cursor: grabbing;
+   }
+  .node.start,
+  .node.end {
+    width: 50px;
+    height: 50px;
+    background-color: #d4edda;
+    border-radius: 50%;
+  }
+  
+  .delete-btn {
+    margin-top: 5px;
+    padding: 2px 5px;
+    font-size: 12px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .connections {
+  position: absolute; /* قرار گرفتن در لایه جدا */
+  top: 0;
+  left: 0;
+  width: 100%; /* کل عرض کانتینر */
+  height: 100%; /* کل ارتفاع کانتینر */
+  z-index: 0; /* قرار گرفتن زیر گره‌ها */
+  pointer-events: none; /* جلوگیری از اختلال در کلیک گره‌ها */
+}
+
+.connections line {
+  stroke: black;
+  stroke-width: 5;
+}
+
+
+.gap-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.gap-editor .add-question-form-group {
+  margin-bottom: 10px;
+}
+
+  </style>

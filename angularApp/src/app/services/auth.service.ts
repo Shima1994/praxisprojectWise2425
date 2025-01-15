@@ -82,6 +82,8 @@ deleteQuestion(questionId: string): Observable<any> {
     questionPayload: {
       description: string;
       code: string;
+      codePart1: string;
+      codePart2: string;
       answer: string;
       feedbackCorrect: string;
       feedbackWrong: string;
@@ -90,6 +92,10 @@ deleteQuestion(questionId: string): Observable<any> {
       selectedCategory: string;
       selectedDifficulty: string;
       currentUsername: string;
+      chartData: {
+        nodes: { content: string; type: string; position: { x: number; y: number } }[];
+        connections: { from: { content: string }; to: { content: string } }[];
+      };
     }
   ) {
     debugger;
