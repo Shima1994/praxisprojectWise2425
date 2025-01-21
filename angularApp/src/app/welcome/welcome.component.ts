@@ -15,7 +15,9 @@ export class WelcomeComponent implements OnInit {
   }
 
   redirecttoLogin() {
-    this.router.navigate(['/signup']);
+    this.router.navigate(['/teacher-signup']);
   }
+
+
 }
 
