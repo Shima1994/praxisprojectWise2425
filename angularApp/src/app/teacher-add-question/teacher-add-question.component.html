@@ -147,7 +147,7 @@
       <!-- بخش مربوط به Gap -->
 <div *ngIf="questionType === 'Gap'" class="gap-editor">
   <div class="add-question-form-group">
-    <label for="code-part1">Code Part 1</label>
+    <label for="code-part1">First Part of the Code</label>
     <textarea
       id="code-part1"
       type="text"
@@ -159,19 +159,19 @@
   </div>
 
   <div class="add-question-form-group">
-    <label for="answer-gap">Answer (Gap)</label>
+    <label for="answer-gap">Gap</label>
     <input
       id="answer-gap"
       type="text"
       class="add-question-form-control"
       [(ngModel)]="questionData.answer"
       name="answerGap"
-      placeholder="Enter the gap answer"
+      placeholder="Provide the answer for the gap"
     />
   </div>
 
   <div class="add-question-form-group">
-    <label for="code-part2">Code Part 2</label>
+    <label for="code-part2">Second Part of the Code</label>
     <textarea
       id="code-part2"
       type="text"

@@ -280,10 +280,45 @@ export class TeacherAddQuestionComponent implements OnInit  {
         alert('ٍQuestion added successfully.')
       },
       });
+      this.resetForm(); // فراخوانی متد برای پاکسازی فرم
 
+      this.loadCurrentUser();
 
     }
     this.loadCurrentUser();
+  }
+
+  private resetForm(): void {
+    // بازنشانی داده‌ها به مقادیر اولیه
+    this.questionData = {
+      description: '',
+      code: '',
+      codePart1: '',
+      codePart2: '',
+      answer: '',
+      feedbackCorrect: '',
+      feedbackWrong: '',
+      hints: [''],
+      selectedDifficulty: 'Expert',
+      selectedCategory: 'Variable',
+      questionType: 'Code',
+      newNodeContent: '',
+      newNodeType: 'process',
+      _id: null,
+      chartData: {
+        nodes: [],
+        connections: []
+      }
+    };
+  
+    this.selectedDifficulty = 'Expert';
+    this.selectedCategory = 'Variable';
+    this.questionType = 'Code';
+    this.chartData = {
+      nodes: [],
+      connections: []
+    };
+    this.selectedNode = null; // اگر گره‌ای انتخاب شده باشد پاکسازی می‌شود
   }
   
   logout(): void {
