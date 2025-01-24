@@ -8,7 +8,7 @@ export const signupGuard: CanActivateFn = (route, state) => {
   const  currentUsername = inject(AuthService).getCurrentUser();
   if (currentUsername !== null) {
     const logIn = false
-    return logIn || router.navigate(['tutor']);
+    return logIn || router.navigate(['teacher-tutor']);
   }
   else {
     const logIn= true

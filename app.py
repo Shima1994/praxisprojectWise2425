@@ -12,11 +12,6 @@ bcrypt= Bcrypt(app)
 secret= "Very_secret_key_thatshouldntbesavedinplaintext"
 app.config["SECRET_KEY"]="Very_secret_key_thatshouldntbesavedinplaintext"
 jwt=JWTManager(app)
-#CORS(app, origins=["http://localhost:4200","http://localhost:4200/tutor","http://localhost:4200/teacher-tutor","http://localhost:4200/teacher-add-question"])
-
-
-# فعال کردن CORS برای همه مسیرها و روش‌ها
-#CORS(app, resources={r"/*": {"origins": "*"}})
 
 CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}}, supports_credentials=True)
 client = MongoClient(host='localhost', port=27017)
@@ -36,21 +31,21 @@ def save_user():
     try:
         data = request.get_json()
         username=data['username']  
-        firstName = data['firstName']  # اضافه کردن firstName
-        lastName = data['lastName']    # اضافه کردن lastName
+        firstName = data['firstName']  
+        lastName = data['lastName']    
         if db.users.find_one({'username':username}):
             message = "user with that username already exists"
             code = 401
             status = "fail"
             print("sag signup")
         else:
-            # hashing the password so it's not stored in the db as it was
+            
             data['password'] = bcrypt.generate_password_hash(data['password']).decode('utf-8')
             data["experienceLevel"]="beginner"
             data["solvedTasks"]=[]
             data['UserCreated'] = datetime.now()
-            data['firstName'] = firstName  # ذخیره firstName
-            data['lastName'] = lastName    # ذخیره lastName
+            data['firstName'] = firstName  
+            data['lastName'] = lastName    
             access_token=create_access_token(identity=username)
             res = db.users.insert_one(data)
             if res.acknowledged:
@@ -141,8 +136,8 @@ def login():
                 message = "user authenticated"
                 code = 200
                 status = "successful"  
-                firstName = user["firstName"]  # نام را از داده‌های کاربر بگیر
-                lastName = user["lastName"]    # نام خانوادگی را از داده‌های کاربر بگیر
+                firstName = user["firstName"]  
+                lastName = user["lastName"]    
                 res_data={"username":username,
                            "token":access_token, 
                            "experienceLevel":experienceLevel,
@@ -240,29 +235,26 @@ def save_teacher():
     status = "fail"
     print("hi")
     try:
-        # Get data from the request body
+       
         data = request.get_json()
         username = data['username']
 
-        # Check if the username already exists in the database
+        
         if db.users.find_one({'username': username}):
             message = "A teacher with that username already exists."
             code = 401
             status = "fail"
         else:
-            # Hash the password before storing it in the database
-            data['password'] = bcrypt.generate_password_hash(data['password']).decode('utf-8')
             
-            # You may want to include other teacher-specific fields
-            data["experienceLevel"] = "beginner"  # Default experience level
-            data["solvedTasks"] = []  # Empty array for initial tasks
-            data['UserCreated'] = datetime.now()
-            data['role'] = 'teacher'  # Add role as 'teacher' for distinguishing
+            data['password'] = bcrypt.generate_password_hash(data['password']).decode('utf-8')
 
-            # Create a JWT token for the teacher
+            data["experienceLevel"] = "beginner" 
+            data["solvedTasks"] = []  
+            data['UserCreated'] = datetime.now()
+            data['role'] = 'teacher'  
+
             access_token = create_access_token(identity=username)
 
-            # Insert the teacher's data into the database
             res = db.users.insert_one(data)
             
             if res.acknowledged:
@@ -293,7 +285,7 @@ def get_questions(user):
         questions = list(db.questions.find({"currentUsername": user}, {"_id": 1, "description": 1, "code": 1, "codePart1": 1,"codePart2": 1,"answer": 1, 
                                                 "feedbackCorrect": 1, "feedbackWrong": 1, "hints": 1, 
                                                 "questionType": 1, "selectedCategory": 1, "selectedDifficulty": 1, "currentUsername": 1,"chartData": 1 }))
-        # تبدیل ObjectId به رشته
+        
         for question in questions:
             question['_id'] = str(question['_id'])
         
@@ -321,20 +313,20 @@ def delete_question(question_id):
 def update_question(question_id):
     print(question_id)
     try:
-        # دریافت داده‌های به‌روزرسانی از درخواست
+        
         question_payload = request.json
         print(question_payload)
-        # بررسی داده‌ها
+        
         if not question_payload:
             return jsonify({"status": "fail", "message": "No data provided"}), 400
 
-        # اجرای به‌روزرسانی در دیتابیس
+        
         result = db.questions.update_one(
             {"_id": ObjectId(question_id)},
             {"$set": question_payload}
         )
 
-        # بررسی نتیجه عملیات
+        
         if result.matched_count > 0:
             return jsonify({"status": "successful", "message": "Question updated successfully"}), 200
         else:
