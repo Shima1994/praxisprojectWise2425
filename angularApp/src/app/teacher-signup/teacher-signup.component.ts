@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   imports: [ReactiveFormsModule, CommonModule]
 })
 export class  TeacherSignupComponent {
-  // فرم ثبت‌نام
+
   signupForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
@@ -21,7 +21,7 @@ export class  TeacherSignupComponent {
     confirmPassword: ['', Validators.required]
   });
 
-  // فرم ورود
+
   loginForm = this.fb.group({
     username: ['', [Validators.required]],
     password: ['', Validators.required]
@@ -33,7 +33,6 @@ export class  TeacherSignupComponent {
     private router: Router
   ) {}
 
-  // ثبت‌نام کاربر
   onSubmitRegister() {
     if (this.signupForm.valid) {
       const { firstName, lastName,username, password } = this.signupForm.value;
@@ -44,7 +43,7 @@ export class  TeacherSignupComponent {
           next: (user) => {
             if (user && user.token) {
               console.log('Signup successful');
-            //    window.location.reload();
+
               this.router.navigateByUrl('/teacher-tutor');
             } else {
               console.error('Signup successful, but no token received');
@@ -61,7 +60,7 @@ export class  TeacherSignupComponent {
     }
   }
 
-  // ورود کاربر
+
   onSubmitLogin() {
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value;
@@ -70,7 +69,7 @@ export class  TeacherSignupComponent {
           next: (user) => {
             if (user && user.token) {
               console.log('Login successful.');
-             //   window.location.reload();
+
               this.router.navigateByUrl('/teacher-tutor');
             } else {
               console.error('Login successful, but no token received');
@@ -85,7 +84,7 @@ export class  TeacherSignupComponent {
     }
   }
 
-  // خروج کاربر
+
   logOut() {
     this.authService.logout();
   }

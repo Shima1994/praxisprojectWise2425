@@ -39,7 +39,7 @@ updateQuestion(id: string, questionPayload: any): Observable<any> {
   return this.http.put(`${this.apiUrl}/updatequestions/${id}`, questionPayload).pipe(
     catchError((error) => {
       console.error('Error updating question:', error);
-      return (error);  // Return the error observable to be handled by the subscriber
+      return (error);  
     })
   );
 }
@@ -50,7 +50,7 @@ deleteQuestion(questionId: string): Observable<any> {
   return this.http.delete(`${this.apiUrl}/questions/${questionId}`);
 }
 
- /*I change this method*/
+
   signup(firstName: string, lastName: string,username: string, password: string) {
     debugger;
     return this.http.post<any>('http://localhost:5000/signup', { firstName, lastName,username, password })
@@ -77,7 +77,7 @@ deleteQuestion(questionId: string): Observable<any> {
 
 
 
-   /*I change this method addQuestion*/
+   
   addQuestion(
     questionPayload: {
       description: string;
@@ -106,7 +106,7 @@ deleteQuestion(questionId: string): Observable<any> {
             const answer = response.data.answer
             const token  = response.data.token;
             const currentUsername= response.data.currentUsername;
-           /*  localStorage.setItem('currentUser', JSON.stringify({ answer, token,questionPayload}));*/
+           
             this.currentUserSubject.next({ answer, token,currentUsername});
             return {  token };
           } else {
@@ -144,7 +144,7 @@ submitQuestion(
 }
 
 
- /*I change this method*/
+
   login(username: string, password: string) {
     return this.http.post<any>('http://localhost:5000/login', { username, password })
       .pipe(

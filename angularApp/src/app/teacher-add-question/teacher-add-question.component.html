@@ -248,11 +248,7 @@
   </div>
 </div>
 
-
-
-
 </body>
-
 
 
 <style>
@@ -275,7 +271,7 @@
     height: 800px;
     margin-top: 20px;
     background-color: #f9f9f9;
-    overflow: hidden; /* جلوگیری از خروج محتوا */
+    overflow: hidden; 
   }
   
   .node {
@@ -296,12 +292,12 @@
     width: 100px;
     height: 50px;
     background-color: lightgreen;
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* ایجاد لوزی */
-    width: 60px; /* اندازه لوزی */
-    height: 60px; /* اندازه لوزی */
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); 
+    width: 60px; 
+    height: 60px; 
     text-align: center;
-    line-height: 60px; /* تنظیم ارتفاع متن داخل لوزی */
-    border-radius: 10px; /* گرد کردن گوشه‌ها */
+    line-height: 60px; 
+    border-radius: 10px;
   }
   .node:active {
   cursor: grabbing;
@@ -325,13 +321,13 @@
   }
   
   .connections {
-  position: absolute; /* قرار گرفتن در لایه جدا */
+  position: absolute; 
   top: 0;
   left: 0;
-  width: 100%; /* کل عرض کانتینر */
-  height: 100%; /* کل ارتفاع کانتینر */
-  z-index: 0; /* قرار گرفتن زیر گره‌ها */
-  pointer-events: none; /* جلوگیری از اختلال در کلیک گره‌ها */
+  width: 100%;
+  height: 100%; 
+  z-index: 0; 
+  pointer-events: none; 
 }
 
 .connections line {

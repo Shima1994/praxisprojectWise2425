@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RouterModule } from '@angular/router';  // add this import
+import { RouterModule } from '@angular/router'; 
 interface Node {
   content: string;
   type: string;
@@ -21,12 +21,11 @@ interface Node {
 })
 export class TeacherAddQuestionComponent implements OnInit  { 
 
-  // خواندن اطلاعات کاربر از localStorage
   currentUser: string | null = localStorage.getItem('currentUser');
   
   currentUserInfo: any = this.currentUser ? JSON.parse(this.currentUser) : null;
   
-  // متغیرها برای نگهداری نام کاربر
+  
   currentUsername: string = this.currentUserInfo?.username || '';
   selectedDifficulty: string = 'Expert';
   selectedCategory: string = 'Variable';
@@ -34,8 +33,8 @@ export class TeacherAddQuestionComponent implements OnInit  {
   questionData = {
     description: '',
     code: '',
-    codePart1: '', // اضافه کردن Code Part 1
-    codePart2: '', // اضافه کردن Code Part 2
+    codePart1: '', 
+    codePart2: '', 
     answer: '',
     feedbackCorrect: '',
     feedbackWrong: '',
@@ -45,15 +44,15 @@ export class TeacherAddQuestionComponent implements OnInit  {
     questionType: 'Code',
     newNodeContent : '',
     newNodeType : 'process',
-    _id: null as string | null, // شناسه سؤال در صورت ویرایش
+    _id: null as string | null, 
     chartData: {
-      nodes: [] as Node[], // آرایه nodes از نوع Node
-      connections: [] as { from: Node; to: Node }[], // ذخیره ارتباطات بین گره‌ها
+      nodes: [] as Node[], 
+      connections: [] as { from: Node; to: Node }[], 
     }
   };
   chartData = {
-    nodes: [] as Node[], // آرایه nodes از نوع Node
-    connections: [] as { from: Node, to: Node }[], // ذخیره ارتباطات بین گره‌ها
+    nodes: [] as Node[], 
+    connections: [] as { from: Node, to: Node }[], 
 
   };
 
@@ -61,59 +60,39 @@ export class TeacherAddQuestionComponent implements OnInit  {
 
   onNodeClick(node: Node): void {
     if (this.selectedNode) {
-      // اضافه کردن اتصال
+      
       this.chartData.connections.push({ from: this.selectedNode, to: node });
-      this.selectedNode = null; // بازنشانی
-      this.drawConnections(); // رسم خطوط
+      this.selectedNode = null; 
+      this.drawConnections(); 
     } else {
       this.selectedNode = node;
     }
   }
   
-// drawConnections(): void {
-//   const canvas = document.querySelector('.connections') as SVGElement;
-//    if (!canvas) return;
-  
-    // پاک کردن خطوط قبلی
-    //canvas.innerHTML = ''; 
-  
-    // ایجاد خطوط جدید با استفاده از innerHTML
-    //this.chartData.connections.forEach((connection) => {
-      //canvas.innerHTML += `
-      //  <line 
-      //    x1="${connection.from.position.x + 50}" 
-      //    y1="${connection.from.position.y + 25}" 
-     //     x2="${connection.to.position.x + 50}" 
-     //     y2="${connection.to.position.y + 25}" 
-       //   stroke="black" 
-     //     stroke-width="2">
-      //  </line>`;
-   // });
-   
- // }
+
  drawConnections(): void {
-  // گرفتن عنصر SVG که خطوط در آن رسم می‌شود
+  
   const canvas = document.querySelector('.connections') as SVGElement;
   if (!canvas) return;
 
-  // پاک کردن خطوط قبلی
+  
   canvas.innerHTML = '';
 
-  // اضافه کردن خطوط جدید
+ 
   this.chartData.connections.forEach((connection) => {
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 
-    // تنظیم مختصات گره‌های اتصال
-    line.setAttribute('x1', `${connection.from.position.x + 50}`); // گره مبدا
+   
+    line.setAttribute('x1', `${connection.from.position.x + 50}`);
     line.setAttribute('y1', `${connection.from.position.y + 25}`);
-    line.setAttribute('x2', `${connection.to.position.x + 50}`); // گره مقصد
+    line.setAttribute('x2', `${connection.to.position.x + 50}`); 
     line.setAttribute('y2', `${connection.to.position.y + 25}`);
 
-    // استایل خط
-    line.setAttribute('stroke', 'black'); // رنگ سیاه
-    line.setAttribute('stroke-width', '2'); // ضخامت خط
+    
+    line.setAttribute('stroke', 'black'); 
+    line.setAttribute('stroke-width', '2');
 
-    // اضافه کردن خط به SVG
+    
     canvas.appendChild(line);
   });
 }
@@ -129,12 +108,12 @@ export class TeacherAddQuestionComponent implements OnInit  {
     const newNode: Node = {
       content: this.questionData.newNodeContent,
       type: this.questionData.newNodeType,
-      position: { x: 50, y: 50 }, // Default position
+      position: { x: 50, y: 50 }, 
     };
 
     this.chartData.nodes.push(newNode);
-    this.questionData.newNodeContent = ''; // Reset content
-    this.questionData.newNodeType = 'process'; // Reset to default type
+    this.questionData.newNodeContent = ''; 
+    this.questionData.newNodeType = 'process'; 
   }
 
   removeNode(node: Node) {
@@ -156,7 +135,7 @@ export class TeacherAddQuestionComponent implements OnInit  {
     if (target && container) {
       const containerRect = container.getBoundingClientRect();
   
-      // محاسبه مختصات جدید با محدود کردن به محدوده مستطیل
+      
       const newX = Math.max(
         0,
         Math.min(event.clientX - containerRect.left - target.offsetWidth / 2, containerRect.width - target.offsetWidth)
@@ -209,7 +188,7 @@ export class TeacherAddQuestionComponent implements OnInit  {
       this.selectedCategory = this.questionData.selectedCategory || 'Variable';
       this.questionType = this.questionData.questionType || 'Code';
       this.chartData = this.questionData.chartData || { nodes: [], connections: [] };
-      this.drawConnections(); // رسم مجدد خطوط
+      this.drawConnections(); 
     }
   }
   selectDifficulty(level: string): void {
@@ -232,8 +211,8 @@ export class TeacherAddQuestionComponent implements OnInit  {
     const questionPayload = {
       description: this.questionData.description || '',
       code: this.questionData.code || '',
-      codePart1: this.questionData.codePart1 || '', // اضافه کردن Code Part 1
-      codePart2: this.questionData.codePart2 || '', // اضافه کردن Code Part 2
+      codePart1: this.questionData.codePart1 || '', 
+      codePart2: this.questionData.codePart2 || '', 
       answer: this.questionData.answer || '',
       feedbackCorrect: this.questionData.feedbackCorrect || '',
       feedbackWrong: this.questionData.feedbackWrong || '',
@@ -249,14 +228,14 @@ export class TeacherAddQuestionComponent implements OnInit  {
     };
     
     if (this.questionData['_id']) {
-      // ویرایش سؤال
+      
       this.authService.updateQuestion(this.questionData['_id'], questionPayload).subscribe({
         next: () => {
           console.log('Question updated successfully');
           alert('Question updated successfully.');
           localStorage.removeItem('editQuestion');
-          //  window.location.reload();
-          this.router.navigate(['/teacher-list-question']); // بازگشت به لیست سؤالات
+          
+          this.router.navigate(['/teacher-list-question']); 
 
         },
         error: (err) => {
@@ -266,7 +245,7 @@ export class TeacherAddQuestionComponent implements OnInit  {
 
       });
     } else {
-      // اضافه کردن سؤال جدید
+     
       debugger;
       this.authService.addQuestion(questionPayload).subscribe({
         
@@ -280,7 +259,7 @@ export class TeacherAddQuestionComponent implements OnInit  {
         alert('ٍQuestion added successfully.')
       },
       });
-      this.resetForm(); // فراخوانی متد برای پاکسازی فرم
+      this.resetForm(); 
 
       this.loadCurrentUser();
 
@@ -289,7 +268,7 @@ export class TeacherAddQuestionComponent implements OnInit  {
   }
 
   private resetForm(): void {
-    // بازنشانی داده‌ها به مقادیر اولیه
+
     this.questionData = {
       description: '',
       code: '',
@@ -318,7 +297,7 @@ export class TeacherAddQuestionComponent implements OnInit  {
       nodes: [],
       connections: []
     };
-    this.selectedNode = null; // اگر گره‌ای انتخاب شده باشد پاکسازی می‌شود
+    this.selectedNode = null; 
   }
   
   logout(): void {

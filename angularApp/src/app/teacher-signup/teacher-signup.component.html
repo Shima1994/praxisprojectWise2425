@@ -1,13 +1,10 @@
 <div class="teacher-signup-main-container">
   <div class="teacher-form-container">
-    <!-- Sign In Section -->
+
     <div class="teacher-login-container">
       <div class="teacher-login-heading">Sign In</div>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()" class="teacher-login-form">
-     <!--     <div>
-          <input class="teacher-login-input" type="text" formControlName="username" placeholder="Email">
-        </div>
-        -->
+
         <div>
           <input class="teacher-login-input" type="text" formControlName="username" placeholder="username">
         </div>
@@ -18,7 +15,6 @@
       </form>
     </div>
 
-    <!-- Sign Up Section -->
     <div class="teacher-login-container">
       <div class="teacher-login-heading">Sign Up</div>
       <form [formGroup]="signupForm" (ngSubmit)="onSubmitRegister()" class="teacher-signup-form">

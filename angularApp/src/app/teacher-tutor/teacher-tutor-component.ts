@@ -12,13 +12,12 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./teacher-tutor-component.sass']
 })
 export class TeacherTutorComponent implements OnInit {
-  // خواندن اطلاعات کاربر از localStorage
+
   currentUser: string | null = localStorage.getItem('currentUser');
   
 
   currentUserInfo: any = this.currentUser ? JSON.parse(this.currentUser) : null;
-  
-  // متغیرها برای نگهداری نام کاربر
+
   currentUsername: string = this.currentUserInfo?.username || '';
   currentFirstName: string = this.currentUserInfo?.firstName || '';
   currentLastName: string = this.currentUserInfo?.lastName || '';
@@ -30,10 +29,10 @@ export class TeacherTutorComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // تنظیم توابع سراسری سرویس لاگینگ
+
     (window as any).loggingService = this.loggingService;
      debugger;
-    // تابعی برای بروزرسانی لاگ‌ها
+
     (window as any).logHelperFunction = (data: { [key: string]: any }, token: string) => {
       this.loggingService.updateLogs(data, token).subscribe(
         (response: any) => {
@@ -45,7 +44,7 @@ export class TeacherTutorComponent implements OnInit {
       );
     };
 
-    // تابعی برای بروزرسانی لیست تمرین‌های حل‌شده
+
     (window as any).updateSolvedExercisesList = (data: { [key: string]: any }, token: string) => {
       this.loggingService.updateSolvedExercises(data, token).subscribe(
         (response: any) => {
@@ -58,7 +57,7 @@ export class TeacherTutorComponent implements OnInit {
     };
   }
 
-  // خروج کاربر
+
   logout(): void {
     this.authservice.logoutTeacher();
   }

@@ -1201,7 +1201,7 @@ button:disabled {
 
     
     overflow: hidden;
-    background: url(src/assets/welcome3.png) no-repeat center center ;
+    background: url(src/assets/WelcomeTeacher.png) no-repeat center center ;
    background-size: cover;
     
     width: 100%;
@@ -1241,9 +1241,13 @@ margin-left: calc((100vw — X)/2);
     width: 200px;
     height: 200px;
  
-    top: 75%;
+   /* top: 75%;
     bottom: 35%;
-    left: -42%;
+    left: -42%;*/
+    
+    position: absolute; /* از absolute به جای relative استفاده کنید */
+    bottom: 100px; /* فاصله از پایین */
+    left: 400px; /* فاصله از راست */
     
     border: none;
     color: #3E3E4F !important;
@@ -1252,14 +1256,14 @@ margin-left: calc((100vw — X)/2);
     
     border-radius: 50%;
     box-shadow: 
-        inset 0 0 50px #fff,
-        inset 20px 0 60px rgb(107, 89, 176),
-        inset -20px 0 60px #0ff,
-        inset 20px 0 300px rgb(191, 129, 242),
-        inset -20px 0 300px #0ff,
-        0 0 50px #fff,
-        -10px 0 60px rgb(191, 129, 242),
-        10px 0 60px #0ff;
+        inset 0 0 50px #060137,
+        inset 20px 0 60px rgb(7, 9, 86),
+        inset -20px 0 60px rgb(24, 183, 232),
+        inset 20px 0 300px rgb(9, 40, 98),
+        inset -20px 0 300px rgb(29, 141, 233),
+        0 0 50px #05000e,
+        -10px 0 60px rgb(33, 103, 173),
+        10px 0 60px rgb(7, 22, 133);
     position: relative;
     overflow: hidden;
 }
@@ -1272,9 +1276,9 @@ margin-left: calc((100vw — X)/2);
 .welcome-btn .btn-text {
     position: relative;
     z-index: 1;
-    color: #fff !important;
+    color: #fcd855 !important;
     text-shadow: 0 0 3px #9e9e9e;
-    font-size: 18px;
+    font-size: 25px;
 }
 
 @keyframes pulse {
@@ -1531,15 +1535,14 @@ kbd {
 }
 
 .mpy-editor-output{
-    background-color: #1e1e1e; /* Dunkler Hintergrund */
-    color: #d4d4d4; /* Helle Textfarbe */
-    font-family: "Courier New", Courier, monospace; /* Monospace-Schriftart */
-    padding: 10px; /* Innenabstand */
-    border-radius: 5px; /* Abgerundete Ecken */
-    overflow: auto; /* Scrollen bei Überlauf */
-    white-space: pre-wrap; /* Beibehalten von Leerzeichen und Umbrüchen */
-    /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Leichter Schatten */
-    max-height: 300px; /* Maximalhöhe für den Fall von viel Text */
+    background-color: #1e1e1e; 
+    color: #d4d4d4; 
+    font-family: "Courier New", Courier, monospace;
+    padding: 10px; 
+    border-radius: 5px; 
+    overflow: auto; 
+    white-space: pre-wrap; 
+    max-height: 300px; 
     margin-top: 10px;
 }
 
@@ -1690,20 +1693,20 @@ body, html {
     font-family: Arial, sans-serif;
   }
   
-  /* Body container styling for the entire page */
+
   .teacher-body-container {
     width: 100%;
-    min-height: 100vh; /* صفحه حداقل ارتفاع صفحه نمایش */
+    min-height: 100vh;
     display: flex;
-    flex-direction: column; /* این ویژگی باعث می‌شود که محتوا از بالا به پایین چینش شود */
-    justify-content: flex-start; /* محتوای اصلی از بالا چیده می‌شود */
-    background-color: #f9f9f9; /* رنگ پس‌زمینه */
-    color: #333; /* رنگ متن */
+    flex-direction: column; 
+    justify-content: flex-start; 
+    background-color: #f9f9f9; 
+    color: #333; 
     font-size: 16px;
-    line-height: 1.6; /* فاصله خطوط */
-    padding: 0; /* برداشتن padding اضافی */
-    overflow-x: hidden; /* جلوگیری از ایجاد اسکرول افقی */
-    margin: 0; /* حذف هرگونه فاصله بیرونی اضافی */
+    line-height: 1.6; 
+    padding: 0; 
+    overflow-x: hidden; 
+    margin: 0; 
   }
 
   
@@ -1767,43 +1770,42 @@ body, html {
   }
 
 /* Teacher Part- tutor */
-/* Main Container Styling */
+
 .teacher-tutor-main-container {
   display: flex;
   height: 100vh;
   background-color: #ddd;
-  padding: 10px; /* حذف فضای اضافه */
+  padding: 10px; 
 }
 
-/* Sidebar Styling */
 .teacher-tutor-sidebar {
-  width: 400px; /* عرض کمتر */
+  width: 400px; 
   background-color: #ddd;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 0; /* پدینگ کمتر */
+  padding: 40px 0; 
   border-right: 1px solid #d1e3f0;
-  box-shadow: 1px 0 5px rgba(0, 0, 0, 0.1); /* سایه کمتر */
+  box-shadow: 1px 0 5px rgba(0, 0, 0, 0.1); 
 }
 
 .sidebar-title {
-  font-size: 50px; /* فونت کوچک‌تر */
+  font-size: 50px;
   font-weight: bold;
   color: #555;
-  margin-bottom:30px; /* فاصله کمتر */
+  margin-bottom:30px; 
 }
 
 .teacher-tutor-menu-item {
-  width: 85%; /* عرض کمتر */
-  padding: 20px; /* پدینگ کمتر */
-  margin: 8px 0; /* فاصله عمودی کمتر */
+  width: 85%; 
+  padding: 20px; 
+  margin: 8px 0; 
   text-align: center;
   background-color: white;
   color: #333;
-  border-radius: 8px; /* انحنای کمتر */
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 20px; /* فونت کوچک‌تر */
+  font-size: 20px;
   transition: all 0.3s ease;
   border: 2px solid #ddd;
 }
@@ -1815,64 +1817,61 @@ body, html {
   border-color: #8df5a2;
 }
 
-/* Content Section Styling */
 .teacher-tutor-content {
-  position: relative; /* برای تعیین مرجع موقعیت دکمه Logout */
+  position: relative; 
   display: flex;
   flex-direction: column;
-  padding: 150px; /* پدینگ کمتر */
+  padding: 150px; 
   background-color: #d1e3f0;
   overflow-y: auto;
-  justify-content: center; /* قرارگیری افقی در مرکز */
-  align-items: center; /* قرارگیری عمودی در مرکز */
-  background-color: #d1e3f0; /* پس‌زمینه برای جداسازی */
+  justify-content: center; 
+  align-items: center;
+  background-color: #d1e3f0; 
 }
 
 .teacher-tutor-user-info {
     background-color: white;
-    padding: 60px; /* افزایش فضای داخلی */
-    border-radius: 20px; /* انحنای نرم‌تر */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* سایه عمیق‌تر */
-    max-width: 1200px; /* عرض بیشتر */
-    width: 90%; /* عرض تطبیقی برای دستگاه‌های کوچک */
+    padding: 60px; 
+    border-radius: 20px; 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 1200px; 
+    width: 90%; 
     text-align: center;
     justify-content: center;
     align-items: center;
-    display: flex; /* فعال‌سازی Flexbox */
-    flex-direction: column; /* چیدمان عمودی */
-    justify-content: center; /* تراز عمودی محتوا */
-    align-items: center; /* تراز افقی محتوا */
-    gap: 20px; /* فاصله بین عناصر داخلی */
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 20px; 
   }
 
 .teacher-tutor-user-info h1 {
-  font-size: 50px; /* فونت کوچک‌تر */
+  font-size: 50px; 
   color: #333;
-  margin-bottom: 20px; /* فاصله کمتر */
+  margin-bottom: 20px; 
 }
 
 .teacher-tutor-user-info p {
-  font-size: 30px; /* فونت کوچک‌تر */
+  font-size: 30px; 
   color: #555;
-  margin: 6px 0; /* فاصله کمتر */
+  margin: 6px 0; 
 }
 
-/* Profile Details Styling */
 .profile-details {
   background-color: #f9f9f9;
-  padding: 80px; /* پدینگ کمتر */
-  border-radius: 40px; /* انحنای کمتر */
+  padding: 80px; 
+  border-radius: 40px; 
 }
 
 .profile-details p strong {
   color: #2c3e50;
 }
 
-/* Logout Button Styling */
 .logout-btn {
-    position: absolute; /* موقعیت‌دهی مطلق */
-    top: 10px; /* فاصله از بالا */
-    right: 10px; /* فاصله از راست */
+    position: absolute; 
+    top: 10px; 
+    right: 10px; 
     padding: 10px 20px;
     background-color: white;
     color: #333;
@@ -1884,13 +1883,13 @@ body, html {
   }
   
   .logout-btn:hover {
-    background-color: #8df5a2; /* تغییر رنگ هنگام هاور */
+    background-color: #8df5a2; 
   }
-  /* add Currentuser part*/
+
   .Currentuser {
-    position: absolute; /* موقعیت‌دهی مطلق */
-    top: 40px; /* فاصله از بالا */
-    right: 10px; /* فاصله از راست */
+    position: absolute; 
+    top: 40px;
+    right: 10px;
     padding: 20px 20px;
     background-color: #d1e3f0;
     color: #333;
@@ -1900,7 +1899,6 @@ body, html {
   
 /* add question part*/
 
-/* Container for entire page */
 .add-question-container {
     display: flex;
     width: 100%;
@@ -1909,16 +1907,15 @@ body, html {
     margin: top 0;
 }
 
-/* Sidebar Styling */
 .add-question-sidebar {
-    width: 400px; /* عرض کمتر */
+    width: 400px;
     background-color: #ddd;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 0; /* پدینگ کمتر */
+    padding: 40px 0;
     border-right: 1px solid #d1e3f0;
-    box-shadow: 1px 0 5px rgba(0, 0, 0, 0.1); /* سایه کمتر */
+    box-shadow: 1px 0 5px rgba(0, 0, 0, 0.1); 
 }
 
 .add-question-sidebar-button {
@@ -1937,27 +1934,24 @@ body, html {
     background-color: #d9f7be;
 }
 
-/* Main Content Area Styling */
 .add-question-main-content {
     display: flex;
     flex-direction: column;
-    padding: 300px; /* پدینگ کمتر */
+    padding: 300px; 
     background-color: #d1e3f0;
     overflow-y: auto;
-    background-color: #d1e3f0; /* پس‌زمینه برای جداسازی */
+    background-color: #d1e3f0; 
     position: relative;
     margin-top: 1px;
 }
 
-/* Title Styling */
 .add-question-page-title {
-  font-size: 40px; /* فونت کوچک‌تر */
+  font-size: 40px; 
   font-weight: bold;
   color: #555;
   margin-top: -200px;
 }
 
-/* Difficulty Levels Styling */
 .add-question-difficulty-levels {
     display: flex;
     justify-content: space-around;
@@ -1971,14 +1965,14 @@ body, html {
     border: 1px solid #ccc;
     cursor: pointer;
     transition: background-color 0.3s;
-    color: black; /* اضافه کردن این خط برای رنگ مشکی متن */
+    color: black; 
 }
 
 
 .add-question-difficulty-button.active {
     background-color: #8df5a2;
 }
-/* Category Button Styling */
+
 .add-question-category-button {
     padding: 1rem;
     border-radius: 10px;
@@ -1986,16 +1980,15 @@ body, html {
     border: 1px solid #ccc;
     cursor: pointer;
     transition: background-color 0.3s;
-    color: black; /* رنگ متن مشکی */
-    margin: 0.5rem; /* فاصله دکمه‌ها از یکدیگر */
-    display: inline-block; /* اطمینان از نمایش دکمه‌ها به صورت خطی */
+    color: black;
+    margin: 0.5rem; 
+    display: inline-block; 
 }
 
 .add-question-category-button.active {
     background-color: #cce7ff;
 }
 
-/* Form Styling */
 .add-question-form {
     flex-direction: column;
     gap: 1rem;
@@ -2003,23 +1996,21 @@ body, html {
     max-width: 800px;
 }
 
-/* Form Group Styling */
 .add-question-form-group {
     flex-direction: column;
 }
 
 .add-question-form-control {
-    width: 100%; /* تنظیم عرض به 100% برای گسترش ورودی‌ها */
-    max-width: 1500px; /* حداکثر عرض مورد نظر */
+    width: 100%; 
+    max-width: 1500px; 
     padding: 10px;
     border-radius: 20px;
     border: 1px solid #ccc;
     margin-top: 1px;
     margin-left: auto;
-    margin-right: auto; /* برای مرکز کردن افقی */
+    margin-right: auto; 
 }
 
-/* Buttons Styling */
 .add-question-add-hint-button {
     padding: 0.5rem 1rem;
     background-color: #b3e5fc;
@@ -2038,22 +2029,21 @@ body, html {
     margin-top: 20px;
 }
 
-/* Button hover effects */
 .add-question-add-hint-button:hover, .add-question-submit-button:hover {
     background-color: #66c5ff;
 }
 
 .add-question-categories {
-    display: flex; /* استفاده از فلکس */
-    flex-direction: column; /* تغییر حالت به عمودی */
-    justify-content: flex-start; /* تنظیم محتوای داخلی در بالا */
-    align-items: flex-start; /* چپ چین کردن دکمه‌ها به صورت افقی */
-    gap: 1rem; /* فاصله عمودی بین دکمه‌ها */
-    margin-top: 1rem; /* فاصله از بالا */
-    margin-left: 0px; /* فاصله از چپ */
-    position: absolute; /* برای قرارگیری در کنار منو */
-    left: 10px; /* تنظیم فاصله از سمت چپ */
-    top: 400px; /* تنظیم فاصله از بالا */
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start; 
+    align-items: flex-start; 
+    gap: 1rem; 
+    margin-top: 1rem; 
+    margin-left: 0px; 
+    position: absolute;
+    left: 10px; 
+    top: 400px; 
 
 }
 .add-question-category-button {
@@ -2063,22 +2053,22 @@ body, html {
     border: 1px solid #ccc;
     cursor: pointer;
     transition: background-color 0.3s;
-    color: black; /* اضافه کردن این خط برای رنگ مشکی متن */
+    color: black; 
 }
 
 .add-question-category-button:hover {
-    background-color: #e0f7fa; /* تغییر رنگ هنگام هاور */
-    transform: scale(1.05); /* کمی بزرگ‌تر هنگام هاور */
+    background-color: #e0f7fa; 
+    transform: scale(1.05); 
 }
 
 .add-question-category-button.active {
-    background-color:  #8df5a2; /* رنگ پس‌زمینه هنگام انتخاب */
+    background-color:  #8df5a2; 
 }
 
 .list-question-table {
-    width: 110%; /* عرض جدول را محدود کنید */
-    margin-top: 20px; /* فاصله از بالا */
-    border-collapse: collapse; /* مرزهای جدول */
+    width: 110%; 
+    margin-top: 20px; 
+    border-collapse: collapse; 
     font-size: 16px;
   }
   
@@ -2101,7 +2091,7 @@ body, html {
   
   
   .edit-btn:hover {
-    background-color: #45a049; /* رنگ روشن‌تر هنگام هاور */
+    background-color: #45a049; 
   }
   
   
@@ -2111,9 +2101,9 @@ body, html {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* افکت تغییر رنگ */
+    transition: background-color 0.3s ease; 
   }
   
   .remove-btn:hover {
-    background-color: #e74c3c; /* رنگ روشن‌تر هنگام هاور */
+    background-color: #e74c3c; 
   }

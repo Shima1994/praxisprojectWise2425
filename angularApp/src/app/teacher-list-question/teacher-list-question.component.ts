@@ -15,10 +15,9 @@ import { Router } from '@angular/router';
 export class TeacherListQuestionComponent implements OnInit {
   questionList: any[] = [];
 
-    // خواندن اطلاعات کاربر از localStorage
+ 
     currentUser: string | null = localStorage.getItem('currentUser');
     currentUserInfo: any = this.currentUser ? JSON.parse(this.currentUser) : null;
-    // متغیرها برای نگهداری نام کاربر
     currentUsername: string = this.currentUserInfo?.username || '';
 
   constructor(private authservice: AuthService,
