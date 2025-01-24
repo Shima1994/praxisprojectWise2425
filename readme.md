@@ -1,60 +1,94 @@
+ # Angular Setup
+Install NodeJS LTS (Long Term Support) version:
+👉 Download NodeJS
 
+1️⃣Navigate to the /angularApp directory.
 
-
-
-# Angular Setup
-
-1. Install **NodeJS LTS (_Long Term Support_)** version:  
-   [Download NodeJS](https://nodejs.org/en)
-
-2. Navigate to `/angularApp` directory
-
-3. Run in terminal (might have to run as **admin**):
-   ```bash
+2️⃣Run the following command in your terminal (you might need to run it as admin):
+👉bash
    npm install
-   ```
 
-4. Then run
-   ```bash
+3️⃣Install Angular CLI globally by running:
+👉bash
    npm install -g @angular/cli
-   ```
-
-5. Start the development server with
-   ```bash
+Start the development server with:
+👉bash
    ng serve
-   ```
-If you are using Windows you might run into an "UnautorizedAccess" issue, one fix for that would be to change the execution policy. Search for the issue shown in your terminal and you should find a guide on how to fix it.
 
-6. Go to [http://localhost:4200](http://localhost:4200) to check if it displays anything. The website is not fully functioning yet.
+⚠️ Note: If you're on Windows, you might encounter an "UnauthorizedAccess" issue. In that case, search for the specific error message and follow the suggested fix.
 
-<br />
+Open your browser and go to:
+   👉 http://localhost:4200
 
-# Python Backend Guide
+💡 You should see the Angular app (although it may not be fully functional yet).
 
-0. Ensure **Python 3** and **pip** are installed (usually installed if Python is downloaded from [Python.org](https://www.python.org/downloads/))
+# 🐍 Python Backend Guide
+1️⃣ Prerequisites
+Make sure you have Python 3 and pip installed.
+👉 Download Python
 
-1. Install **MongoDB** from [MongoDB Community Server](https://www.mongodb.com/try/download/community) (the _community server edition_)
+Install MongoDB Community Server:
+👉 Download MongoDB
 
-2. Start **MongoDBCompass** and create a basic connection inside MongoDBCompass. (If you are using Mac, you have to do it differently)
+2️⃣ MongoDB Setup
+Start MongoDBCompass and create a connection.
 
-3. Try it out by opening [http://localhost:27017/](http://localhost:27017/) (or the IP:PORT shown in MongoDBCompass) in your browser
+(Mac users may need to follow alternative instructions to set it up.)
 
-4. Click on **Databases** inside **MongoDBCompass**, you should see 3 collections: **admin**, **config**, **local**.
+# Verify MongoDB is working:
+Open http://localhost:27017/ in your browser.
 
-5. (Optional) Create a virtual environment in Python and activate it (activation is **different** on _Windows_ or _macOS_)
-> [How to setup virtual environments in Python](https://www.freecodecamp.org/news/how-to-setup-virtual-environments-in-python/)
-> Skip this step if it's not working and hope your normal python environment has no conflicts.
+Inside MongoDBCompass, click on Databases.
+You should see these collections:
+admin
+config
+local
+3️⃣ Setting Up the Backend
+(Optional) Create and activate a virtual environment:
+👉 How to setup virtual environments
 
-6. Install the required packages
-   ```bash
+If this step causes issues, skip it and use your global Python environment.
+
+Install the required Python packages by running:
+bash
    pip install -r requirements.txt
-   ```
-   or
-   ```bash
-   pip3 install -r requirements.txt
-   ```
-   
-7. Run the `app.py` either with `python app.py` or `python3 app.py` as required by your installation
 
-# Final setup
-Ensure you have MongoDB running and a connection open before running the Python app. You should have both the Python app (python app.py) and the development server (ng serve) running at the same time, for the Application to function correctly. Now you should be able to go to [http://localhost:4200](http://localhost:4200) and it should function correctly.
+Run the backend server:
+bash
+   python app.py
+
+# 🐳 Docker Setup
+1️⃣ Prerequisite:
+Make sure Docker is installed on your system.
+
+👉 Download Docker
+
+2️⃣ Building and Running Docker Containers
+Navigate to the directory containing the docker-compose.yml file.
+
+Build the Docker images:
+bash
+   docker-compose build
+
+Run the containers:
+bash
+   docker-compose up
+Once everything is up and running, open your browser and go to:
+👉 http://localhost:4200
+
+# ✅ Final Setup
+Make sure the following are running at the same time:
+
+🐍 Python backend:
+bash
+   python app.py
+
+🌐 Angular development server:
+bash
+   ng serve
+
+🐳 Docker containers:
+bash
+   docker-compose up
+
+Now, visit 👉 http://localhost:4200 to access the fully functional application. 🎉
