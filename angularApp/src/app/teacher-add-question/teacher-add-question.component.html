@@ -69,8 +69,24 @@
         <option value="chart">Chart</option>
          <option value="Gap">Gap</option>
       </select>
+
+    </div>
+    <div class="question-type-description">
+      <p *ngIf="questionType === 'Code'">
+        ℹ️ You can add a code question here. <br>Please ensure that the answer will be shown as code.
+      </p>
+      <p *ngIf="questionType === 'text'">
+        ℹ️ The answer for this type <br> of question should be provided in text form.
+      
+      <p *ngIf="questionType === 'chart'">
+        ℹ️ You can draw a chart using <br> nodes. Don't forget to enter the <br> command for each node.
+      </p>
+      <p *ngIf="questionType === 'Gap'">
+        ℹ️ The gap in the part codes will not be shown <br>to the student. The student will only see<br> the first and second part codes.
+      </p>
     </div>
 </div>
+
 
 
 
@@ -144,7 +160,7 @@
         </div>
 
 
-      <!-- بخش مربوط به Gap -->
+      
 <div *ngIf="questionType === 'Gap'" class="gap-editor">
   <div class="add-question-form-group">
     <label for="code-part1">First Part of the Code</label>
@@ -345,5 +361,17 @@
 .gap-editor .add-question-form-group {
   margin-bottom: 10px;
 }
+.question-type-description {
+  
+    font-size: 14px; 
+    padding: 5px 10px; 
+    margin-top: 5px; 
+    max-width: 80%; 
+    word-wrap: break-word; 
+    text-align: left;
+
+}
+
+
 
   </style>
