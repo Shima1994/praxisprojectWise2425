@@ -39,7 +39,19 @@
       </button>
     </div>
 
+
+    
 <div class="add-question-categories">
+  <div class="add-question-help">
+    <label for="help-text"><strong>Help Information</strong></label>
+    <p
+      id="help-text"
+      class="add-question-form-control"
+      
+      name="helpText"
+      placeholder="Enter some helpful information about categories..."
+    >To add a new question, first <br>choose the topic  and the<br> difficulty level. Then, select the <br>question type and fill <br> in the required fields.</p>
+  </div>
     <button
         class="add-question-category-button"
         [class.active]="selectedCategory === 'Variable'"
@@ -369,9 +381,23 @@
     max-width: 80%; 
     word-wrap: break-word; 
     text-align: left;
+    border: 1px solid #ccc;
+  border-radius: 5px;
 
 }
 
+.add-question-help {
+  margin-bottom: 15px;
+}
+
+.add-question-help textarea {
+  width: 100%;
+  height: 60px;
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
 
   </style>
